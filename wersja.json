@@ -1,9 +1,9 @@
 {
- "wersja": 2026112103,
+ "wersja": 2026112104,
  "opis": [
-  "Zużycie filamentu z pliku G-code: po każdym wydruku aplikacja pobiera z drukarki jego plik, bierze gramy każdego koloru i dopasowuje kolory do slotów CFS – odejmuje od właściwych szpul, także przy kilku PLA naraz",
-  "Przerwany wydruk odejmuje tylko to, co faktycznie zeszło",
-  "Gdy pliku na drukarce już nie ma, odejmuje od jedynej pasującej szpuli albo czeka na „Rozpisz na szpule”"
+  "Bezpieczeństwo: dane w tabeli sprzedaży i kosztów są zabezpieczone przed wstrzyknięciem kodu",
+  "Aktualizacja APK pobiera plik wyłącznie szyfrowanym połączeniem (https)",
+  "Biblioteka skanera kodów jest sprawdzana sumą kontrolną przy budowie aplikacji"
  ],
  "paczka": "DRUKUJ 3D 1.5",
  "opisKlient": []
