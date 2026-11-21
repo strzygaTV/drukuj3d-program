@@ -1,13 +1,8 @@
 {
- "wersja": 2026112105,
+ "wersja": 2026112106,
  "opis": [
-  "Ekran startowy: logo „drukuje się” warstwa po warstwie; w aplikacjach od pierwszej klatki czarne tło z logo zamiast białego błysku",
-  "Regulamin: pełna informacja RODO (administrator DRUKUJ 3D, cele, podstawy, okresy, odbiorcy, prawa klienta)",
-  "Stawki (zł/h, zł/g) są zakodowane w kodzie strony, nie da się ich już podejrzeć wprost"
+  "Publikacja oferty: przy błędzie pokazuje dokładną przyczynę (brak repo w kluczu, brak zapisu albo nieważny klucz) i 4 ostatnie znaki używanego klucza"
  ],
  "paczka": "DRUKUJ 3D 1.5",
- "opisKlient": [
-  "Nowy ekran startowy z logo",
-  "Regulamin: dokładna informacja o ochronie danych (RODO)"
- ]
+ "opisKlient": []
 }
