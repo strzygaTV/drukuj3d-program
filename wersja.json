@@ -1,13 +1,13 @@
 {
- "wersja": 2026112112,
+ "wersja": 2026112113,
  "opis": [
-  "Nowe logo w barwach Zawiszy: czarne litery „DRUKUJ” z białym obrysem, niebieskie „3D”. Nowa ikona aplikacji",
-  "Katalog: informacja, że zdjęcia to wizualizacje (rendery) i gotowy produkt może się różnić – w katalogu, na każdym zdjęciu, w Zasadach i w postach na Facebooka",
-  "Strona dla klientów sama przeładowuje się na najnowszą wersję, gdy przeglądarka (np. w aplikacji Facebooka) pokaże starą kopię z pamięci"
+  "Wydruki z OSTRZA: nowa karta w Filamentach. Połącz raz folder Dokumenty\\DRUKUJ3D, a program co minutę czyta druki.json i pokazuje listę wydruków ze slicera",
+  "Wydruk z OSTRZA, który pojawi się w historii drukarki, odejmuje się od szpul według slicera: gramy na każdy slot, dokładnie na przypisaną szpulę. Tylko raz – zapis i wysłanie tego samego pliku liczą się jako jeden wydruk, przerwany wydruk odejmuje tylko to, co zeszło",
+  "Wydruk, którego drukarka nie widziała: przycisk „Odejmij” (z wyborem szpuli), „Pomiń” albo „Cofnij”",
+  "Cennik dla OSTRZE (filamenty.json) zapisuje się sam do folderu DRUKUJ3D po każdej zmianie filamentów"
  ],
  "paczka": "DRUKUJ 3D 1.5",
  "opisKlient": [
-  "Nowe logo i ikona",
-  "Informacja o zdjęciach produktów (wizualizacje)"
+  "Drobne poprawki"
  ]
 }
