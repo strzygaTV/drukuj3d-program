@@ -1,10 +1,13 @@
 {
- "wersja": 2026112104,
+ "wersja": 2026112105,
  "opis": [
-  "Bezpieczeństwo: dane w tabeli sprzedaży i kosztów są zabezpieczone przed wstrzyknięciem kodu",
-  "Aktualizacja APK pobiera plik wyłącznie szyfrowanym połączeniem (https)",
-  "Biblioteka skanera kodów jest sprawdzana sumą kontrolną przy budowie aplikacji"
+  "Ekran startowy: logo „drukuje się” warstwa po warstwie; w aplikacjach od pierwszej klatki czarne tło z logo zamiast białego błysku",
+  "Regulamin: pełna informacja RODO (administrator DRUKUJ 3D, cele, podstawy, okresy, odbiorcy, prawa klienta)",
+  "Stawki (zł/h, zł/g) są zakodowane w kodzie strony, nie da się ich już podejrzeć wprost"
  ],
  "paczka": "DRUKUJ 3D 1.5",
- "opisKlient": []
+ "opisKlient": [
+  "Nowy ekran startowy z logo",
+  "Regulamin: dokładna informacja o ochronie danych (RODO)"
+ ]
 }
