@@ -1,6 +1,7 @@
 {
- "wersja": 2026112110,
+ "wersja": 2026112111,
  "opis": [
+  "Strona dla klientów sama przeładowuje się na najnowszą wersję, gdy przeglądarka (np. w aplikacji Facebooka) pokaże starą kopię z pamięci",
   "Publikacja na Facebooku: w Katalogu przycisk „📣 Post / oferta” – program robi grafikę z produktem i ceną oraz gotowy tekst",
   "Przyciski „📣 Opublikuj na Facebooku”, „📅 Zaplanuj w Metricool” i „🖼 Zapisz grafikę”. Na telefonie otwiera się okno Udostępnij (Facebook, Metricool, Messenger), tekst trafia do schowka",
   "Nowy „Post z nowościami” – do 4 produktów na jednej grafice",
