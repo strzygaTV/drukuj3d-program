@@ -1,0 +1,16 @@
+plugins { id 'com.android.application' }
+def ksPath = System.getenv("KS_PATH")
+android {
+    namespace 'pl.drukuj3d.klient'
+    compileSdk 34
+    defaultConfig {
+        applicationId "pl.drukuj3d.klient"
+        minSdk 26
+        targetSdk 34
+        versionCode((System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInteger())
+        versionName "0.9." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0") + "-beta"
+    }
+    signingConfigs { release { if (ksPath) { storeFile file(ksPath); storePassword System.getenv("KS_PASS"); keyAlias System.getenv("KS_ALIAS") ?: "drukuj3d"; keyPassword System.getenv("KS_PASS") } } }
+    buildTypes { release { minifyEnabled false; signingConfig ksPath ? signingConfigs.release : signingConfigs.debug } }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}

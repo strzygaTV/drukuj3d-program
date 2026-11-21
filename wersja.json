@@ -1,0 +1,13 @@
+{
+ "wersja": 2026112101,
+ "opis": [
+  "Katalog „Na zamówienie” u klienta pokazuje tylko nazwę, kolory do wyboru, wymiary i cenę – dane produkcyjne zniknęły ze strony, apki klienta i publicznego katalog.json",
+  "Pełny katalog (płyty, montaż, czasy, gramy, uwagi) program pobiera tylko z prywatnego repo po wpisaniu klucza – przycisk „Aktualizuj katalog”",
+  "Montaż i szczegóły produkcyjne w katalogu widzi tylko właściciel"
+ ],
+ "paczka": "DRUKUJ 3D 1.5",
+ "opisKlient": [
+  "Przejrzystszy katalog: nazwa, kolory do wyboru, wymiary i cena",
+  "Produkty do złożenia mają oznaczenie „zestaw do złożenia”"
+ ]
+}

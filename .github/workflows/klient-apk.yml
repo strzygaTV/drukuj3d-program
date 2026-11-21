@@ -1,0 +1,53 @@
+name: Aplikacja klienta (beta) – APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths: [ 'klient-android/**', '.github/workflows/klient-apk.yml' ]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Klucz podpisu trzymany w pamięci podręcznej GitHub Actions (nie w kodzie)
+        uses: actions/cache@v4
+        with:
+          path: ~/d3klucz
+          key: drukuj3d-klient-klucz-v3
+      - name: Klucz podpisu
+        env:
+          KS_B64: ${{ secrets.DRUKUJ3D_KEYSTORE_BASE64 }}
+          KS_SEC: ${{ secrets.DRUKUJ3D_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > $RUNNER_TEMP/release.jks
+            echo "KS_PATH=$RUNNER_TEMP/release.jks" >> $GITHUB_ENV; echo "KS_PASS=$KS_SEC" >> $GITHUB_ENV
+          else
+            mkdir -p ~/d3klucz
+            if [ ! -f ~/d3klucz/k.jks ]; then
+              H=$(head -c 24 /dev/urandom | base64 | tr -dc 'A-Za-z0-9'); echo "$H" > ~/d3klucz/h
+              keytool -genkeypair -keystore ~/d3klucz/k.jks -storetype PKCS12 -alias drukuj3d -keyalg RSA -keysize 2048 -validity 36500 -storepass "$H" -keypass "$H" -dname "CN=DRUKUJ 3D klient (beta), C=PL" > /dev/null 2>&1
+            fi
+            echo "::add-mask::$(cat ~/d3klucz/h)"
+            echo "KS_PATH=$HOME/d3klucz/k.jks" >> $GITHUB_ENV; echo "KS_PASS=$(cat ~/d3klucz/h)" >> $GITHUB_ENV
+          fi
+          echo "KS_ALIAS=drukuj3d" >> $GITHUB_ENV
+      - name: Budowa APK
+        working-directory: klient-android
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          mkdir -p app/src/main/assets && cp ../docs/index.html app/src/main/assets/index.html
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+          cp app/build/outputs/apk/release/app-release*.apk ../DRUKUJ3D-klient-beta.apk
+      - name: Wydania – APK do pobrania i licznik wejść
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          gh release view licznik >/dev/null 2>&1 || { echo ok > wejscie.txt; gh release create licznik wejscie.txt --title "Licznik wejść na stronę" --notes "Plik techniczny – nie usuwać." --latest=false; }
+          gh release view beta >/dev/null 2>&1 || gh release create beta --title "DRUKUJ 3D – aplikacja dla klientów (beta)" --notes "Wersja testowa. Pobierz plik APK, otwórz go na telefonie z Androidem i zezwól na instalację." --latest
+          gh release upload beta DRUKUJ3D-klient-beta.apk --clobber
