@@ -1,9 +1,12 @@
 {
- "wersja": 2026112107,
+ "wersja": 2026112108,
  "opis": [
-  "Ustawienia: nowy przycisk „🔑 Zmień klucz GitHub” – podmiana klucza bez rozłączania i bez utraty danych. Na komputerze program od razu proponuje zapisać plik z nowym kluczem",
-  "Instrukcja tworzenia klucza: oba repozytoria (drukuj3d-android i drukuj3d-program) i Contents: Read and write"
+  "Nowy ekran startowy: głowica jeździ w lewo i w prawo i drukuje logo pasami, warstwa po warstwie, z napisem „Internetowa drukarnia 3D”",
+  "Przycisk menu ☰ przeniesiony na sam brzeg ekranu i powiększony, łatwiej go kliknąć"
  ],
  "paczka": "DRUKUJ 3D 1.5",
- "opisKlient": []
+ "opisKlient": [
+  "Nowy ekran startowy",
+  "Wygodniejszy przycisk menu"
+ ]
 }
