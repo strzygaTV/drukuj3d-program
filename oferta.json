@@ -1,5 +1,5 @@
 {
- "aktualizacja": "2026-11-14",
+ "aktualizacja": "2026-11-21T09:25:05.471Z",
  "filamenty": [
   {
    "id": "mw3bjo8wjq0re",
@@ -149,20 +149,73 @@
    "wyk": "standard"
   },
   {
-   "id": "mw3u8td5cmf69",
-   "nazwa": "CR ABS BROWN",
-   "typ": "ABS",
-   "kolor": "#888888",
+   "id": "mwkgald6nat95",
+   "nazwa": "Tpu White",
+   "typ": "TPU",
+   "kolor": "#ffffff",
    "wyk": "standard"
   },
   {
-   "id": "mw3u8td975wo7",
-   "nazwa": "CR PETG BLACK MATTE",
-   "typ": "PETG",
-   "kolor": "#888888",
-   "wyk": "mat"
+   "id": "mwkgceh1b40sq",
+   "nazwa": "Tpu Blue",
+   "typ": "TPU",
+   "kolor": "#0000ff",
+   "wyk": "standard"
+  },
+  {
+   "id": "mwkgdliqb78yl",
+   "nazwa": "Tpu Transparent",
+   "typ": "TPU",
+   "kolor": "#f2f7ff",
+   "wyk": "standard"
+  },
+  {
+   "id": "mwkuy84rb4cmk",
+   "nazwa": "Tpu Black",
+   "typ": "TPU",
+   "kolor": "#000000",
+   "wyk": "standard"
+  },
+  {
+   "id": "mwmfar7fi3rsy",
+   "nazwa": "HYPER PLA",
+   "typ": "PLA",
+   "kolor": "#ffffff",
+   "wyk": "silk"
   }
  ],
+ "usl": {
+  "v": 3,
+  "dH": 32,
+  "min": 48,
+  "szt": 4,
+  "minSzt": 9.99,
+  "gPLA": 0.1,
+  "gPETG": 0.14,
+  "gABS": 0.13,
+  "gASA": 0.18,
+  "gTPU": 0.28,
+  "gSPEC": 0.14,
+  "wielo": 25,
+  "eks": 50,
+  "spec": 30,
+  "r10": 10,
+  "r50": 20,
+  "c1": 79,
+  "c2": 159,
+  "c3": 399,
+  "obr": 64,
+  "mod": 96,
+  "modP": 120,
+  "ppH": 64,
+  "pPodp": 16,
+  "pSzlif": 24,
+  "pMal": 40,
+  "pLak": 64,
+  "pAce": 24,
+  "pKlej": 40,
+  "pPrzyg": 0
+ },
  "kontakt": {
   "email": "drukuj3dmtw@proton.me",
   "tel": "",
