@@ -1,13 +1,10 @@
 {
- "wersja": 2026112102,
+ "wersja": 2026112103,
  "opis": [
-  "Telefon w pionie: wszystko mieści się na szerokość ekranu, bez przesuwania na boki. Tabele (filamenty, sprzedaż, koszty, kwartały) zamieniają się w czytelne karty",
-  "Zużyty filament odejmuje się sam: po każdym zakończonym wydruku program przelicza zużycie z drukarki na gramy i odejmuje od szpuli (np. 1000 g PLA − 400 g = zostaje 600 g)",
-  "Szpulę wybiera sam, gdy wiadomo, z której zeszło (jedyny filament tego rodzaju w CFS albo jedyna Twoja szpula tego rodzaju). Inaczej wydruk czeka na „Rozpisz na szpule”. Każde odjęcie można cofnąć",
-  "Przycisk „+” szybkich akcji jest mniejszy i nie zasłania treści"
+  "Zużycie filamentu z pliku G-code: po każdym wydruku aplikacja pobiera z drukarki jego plik, bierze gramy każdego koloru i dopasowuje kolory do slotów CFS – odejmuje od właściwych szpul, także przy kilku PLA naraz",
+  "Przerwany wydruk odejmuje tylko to, co faktycznie zeszło",
+  "Gdy pliku na drukarce już nie ma, odejmuje od jedynej pasującej szpuli albo czeka na „Rozpisz na szpule”"
  ],
  "paczka": "DRUKUJ 3D 1.5",
- "opisKlient": [
-  "Strona lepiej mieści się na ekranie telefonu"
- ]
+ "opisKlient": []
 }
