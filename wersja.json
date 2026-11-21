@@ -1,7 +1,8 @@
 {
- "wersja": 2026112106,
+ "wersja": 2026112107,
  "opis": [
-  "Publikacja oferty: przy błędzie pokazuje dokładną przyczynę (brak repo w kluczu, brak zapisu albo nieważny klucz) i 4 ostatnie znaki używanego klucza"
+  "Ustawienia: nowy przycisk „🔑 Zmień klucz GitHub” – podmiana klucza bez rozłączania i bez utraty danych. Na komputerze program od razu proponuje zapisać plik z nowym kluczem",
+  "Instrukcja tworzenia klucza: oba repozytoria (drukuj3d-android i drukuj3d-program) i Contents: Read and write"
  ],
  "paczka": "DRUKUJ 3D 1.5",
  "opisKlient": []
