@@ -1,13 +1,13 @@
 {
- "wersja": 2026112111,
+ "wersja": 2026112112,
  "opis": [
-  "Strona dla klientów sama przeładowuje się na najnowszą wersję, gdy przeglądarka (np. w aplikacji Facebooka) pokaże starą kopię z pamięci",
-  "Publikacja na Facebooku: w Katalogu przycisk „📣 Post / oferta” – program robi grafikę z produktem i ceną oraz gotowy tekst",
-  "Przyciski „📣 Opublikuj na Facebooku”, „📅 Zaplanuj w Metricool” i „🖼 Zapisz grafikę”. Na telefonie otwiera się okno Udostępnij (Facebook, Metricool, Messenger), tekst trafia do schowka",
-  "Nowy „Post z nowościami” – do 4 produktów na jednej grafice",
-  "Bezpieczeństwo: stawki w ofercie publikowanej na stronę są teraz zakodowane (wcześniej było widać stawkę godzinową i cenę za gram)",
-  "Wymaga nowej aplikacji na telefon (zainstaluje się z aktualizacją)"
+  "Nowe logo w barwach Zawiszy: czarne litery „DRUKUJ” z białym obrysem, niebieskie „3D”. Nowa ikona aplikacji",
+  "Katalog: informacja, że zdjęcia to wizualizacje (rendery) i gotowy produkt może się różnić – w katalogu, na każdym zdjęciu, w Zasadach i w postach na Facebooka",
+  "Strona dla klientów sama przeładowuje się na najnowszą wersję, gdy przeglądarka (np. w aplikacji Facebooka) pokaże starą kopię z pamięci"
  ],
  "paczka": "DRUKUJ 3D 1.5",
- "opisKlient": []
+ "opisKlient": [
+  "Nowe logo i ikona",
+  "Informacja o zdjęciach produktów (wizualizacje)"
+ ]
 }
