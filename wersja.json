@@ -1,13 +1,13 @@
 {
- "wersja": 2026112101,
+ "wersja": 2026112102,
  "opis": [
-  "Katalog „Na zamówienie” u klienta pokazuje tylko nazwę, kolory do wyboru, wymiary i cenę – dane produkcyjne zniknęły ze strony, apki klienta i publicznego katalog.json",
-  "Pełny katalog (płyty, montaż, czasy, gramy, uwagi) program pobiera tylko z prywatnego repo po wpisaniu klucza – przycisk „Aktualizuj katalog”",
-  "Montaż i szczegóły produkcyjne w katalogu widzi tylko właściciel"
+  "Telefon w pionie: wszystko mieści się na szerokość ekranu, bez przesuwania na boki. Tabele (filamenty, sprzedaż, koszty, kwartały) zamieniają się w czytelne karty",
+  "Zużyty filament odejmuje się sam: po każdym zakończonym wydruku program przelicza zużycie z drukarki na gramy i odejmuje od szpuli (np. 1000 g PLA − 400 g = zostaje 600 g)",
+  "Szpulę wybiera sam, gdy wiadomo, z której zeszło (jedyny filament tego rodzaju w CFS albo jedyna Twoja szpula tego rodzaju). Inaczej wydruk czeka na „Rozpisz na szpule”. Każde odjęcie można cofnąć",
+  "Przycisk „+” szybkich akcji jest mniejszy i nie zasłania treści"
  ],
  "paczka": "DRUKUJ 3D 1.5",
  "opisKlient": [
-  "Przejrzystszy katalog: nazwa, kolory do wyboru, wymiary i cena",
-  "Produkty do złożenia mają oznaczenie „zestaw do złożenia”"
+  "Strona lepiej mieści się na ekranie telefonu"
  ]
 }
