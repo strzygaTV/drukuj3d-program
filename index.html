@@ -347,6 +347,12 @@ img,svg,canvas,video{max-width:100%}
 #splash.gotowe .sp-glowica{opacity:0;transition:opacity .3s}
 .wizBox{position:relative}.wizTag{position:absolute;left:8px;bottom:8px;font:700 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#4b5260;background:rgba(255,255,255,.85);border:1px solid #d5d9e0;border-radius:6px;padding:2px 6px;pointer-events:none}
 .wizInfo{margin:10px 0 0;padding:8px 10px;border-radius:8px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.25)}
+/* Lista filamentów zwijana: domyślnie kolor + nazwa, „+” pokazuje szczegóły */
+#tFil tr.zw td.det{display:none!important}#tFil:not(.jestRozw) th.det{display:none}#tFil tr.zw .aliasy{display:none}
+#tFil .filNazW{display:flex;align-items:center;gap:8px}
+#tFil .filPlus{flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--akc,#3b82f6);background:transparent;color:var(--akc,#3b82f6);font:700 20px/1 var(--sans);cursor:pointer;display:grid;place-items:center;padding:0}
+#tFil tr.rozw .filPlus{background:var(--akc,#3b82f6);color:#fff}
+@media (max-width:700px){#tFil tr.zw{display:flex!important;align-items:center;gap:10px;padding:8px 10px!important}#tFil tr.zw td{padding:0!important;border:0!important;min-height:0!important;display:block!important;width:auto!important;flex:none;grid-column:auto!important}#tFil tr.zw td::before{display:none!important}#tFil tr.zw td.filNaz{flex:1 1 auto!important;min-width:0}#tFil tr.zw td.filNaz input{min-width:0!important;width:100%}#tFil tr.zw input[type=color]{width:34px!important;height:34px!important}}
 </style>
 </head>
 <body>
@@ -533,7 +539,7 @@ img,svg,canvas,video{max-width:100%}
   <div class="alert uw owner-only hidden" id="filSmieci"></div>
   <div class="card owner-only hidden" id="zuzKarta"></div>
   <div class="card owner-only hidden" id="ostKarta"></div>
-  <p class="note" id="filIle" style="margin:4px 0"></p>
+  <div class="row" style="justify-content:space-between;align-items:center"><p class="note" id="filIle" style="margin:4px 0"></p><button class="b2" type="button" id="filRozwWsz" style="padding:6px 12px">＋ Rozwiń wszystkie</button></div>
   <div class="tw"><table id="tFil"></table></div><p class="note">„Na stanie” = kolor dostępny dla klienta w ofercie.</p></div>
 </section>
 
@@ -1071,7 +1077,7 @@ function renderCosts(){ const list=S.costs.slice().sort((a,b)=>a.data<b.data?1:-
 /* ================= FILAMENTY ================= */
 const fF=$("#fFil");
 fF.onsubmit=e=>{e.preventDefault(); S.filaments.push({id:uid(),kod:fF.kod.value.trim(),nazwa:fF.nazwa.value.trim(),typ:fF.typ.value,kolor:fF.kolor.value,cena:+fF.cena.value,waga:+fF.waga.value||1000,stan:true,zr:"ręcznie",wyk:fF.wyk.value}); persist("filaments"); fF.reset(); fF.waga.value=1000; toast("Dodano filament"); renderAll();};
-const FSEL=new Set(); let FIL_LIMIT=150;
+const FSEL=new Set(); let FIL_LIMIT=150; const FROZW=new Set(); let FROZW_WSZ=false;
 const filImport=f=>/^Creality Print/.test(f.zr||"") || f.zr==="start";
 const filMoja=f=>(+f.szpul>0) || ["skaner","ręcznie","drukarka"].includes(f.zr) || !!f.drk;
 const naStanie=()=>S.filaments.filter(f=>f.stan && filMoja(f) && f.zr!=="start");
@@ -1327,14 +1333,15 @@ function renderFil(){
   [...FSEL].forEach(id=>{ if(!S.filaments.some(f=>f.id===id)) FSEL.delete(id); });
   $("#filIle").textContent=`Widoczne: ${L.length} z ${S.filaments.length}`+(FSEL.size?` · zaznaczone: ${FSEL.size}`:"")+(L.length>FIL_LIMIT?` · pokazuję pierwsze ${FIL_LIMIT} (zawęź wyszukiwanie)`:"");
   $("#filUsun").textContent=FSEL.size?`Usuń zaznaczone (${FSEL.size})`:"Usuń zaznaczone";
-  $("#tFil").innerHTML="<tr><th class=owner-only></th><th>Kolor</th><th>Nazwa</th><th>Kod</th><th>Typ</th><th class=n>Cena szpuli</th><th class=n>Waga</th><th class=n>zł/kg</th><th>Wygląd</th><th class=n>Szpul</th><th>Zostało</th><th>Na stanie</th><th>Źródło</th><th></th></tr>"+
-   L.slice(0,FIL_LIMIT).map(f=>`<tr data-id="${f.id}"><td class=owner-only><input type="checkbox" data-sel="${f.id}" ${FSEL.has(f.id)?"checked":""} style="width:20px;height:20px"></td><td><input type="color" value="${esc(f.kolor)}" data-k="kolor" style="width:42px;height:30px;margin:0"></td>
-   <td><input value="${esc(f.nazwa)}" data-k="nazwa" style="min-width:140px;margin:0">${(f.aliasy&&f.aliasy.length)?`<div class="aliasy">${f.aliasy.map((a,i)=>`<span class="al">= ${esc(a)}<button type="button" class="owner-only" data-ral="${f.id}|${i}" title="Rozłącz tę nazwę">✕</button></span>`).join("")}</div>`:""}${f.drk?`<div class="aliasy"><span class="al dr">🖨 ${esc(f.drkSlot||"CFS")}: ${esc(f.drkNazwa||"")}<button type="button" class="owner-only" data-rdr="${f.id}" title="Odłącz od slotu drukarki">✕</button></span></div>`:""}</td><td><input value="${esc(f.kod)}" data-k="kod" style="width:110px;margin:0"></td><td>${esc(f.typ)}</td>
-   <td class=n><input type="number" step="0.01" value="${+f.cena}" data-k="cena" style="width:90px;margin:0"></td><td class=n><input type="number" value="${+f.waga}" data-k="waga" style="width:80px;margin:0"></td>
-   <td class=n>${zl(zlkg(f))}</td><td><select data-k="wyk" style="margin:0;width:auto">${WYK.map(w=>`<option ${(f.wyk||"standard")===w?"selected":""}>${w}</option>`).join("")}</select></td><td class=n><input type="number" min="0" value="${+(f.szpul??0)}" data-k="szpul" style="width:60px;margin:0"><button class="b2" data-zuz="${f.id}" title="Szpula zużyta" type="button" style="padding:2px 6px;margin-left:4px">−1</button></td>
-   <td><button class="zostBtn ${zostaloProc(f)<15?"malo":""}" type="button" data-zost="${f.id}" title="Kliknij, żeby ustawić ile zostało"><span class="pas"><i style="width:${zostaloProc(f)}%"></i></span><b>${zostaloProc(f)}%</b><small>${Math.round(zostaloG(f))} g</small></button></td>
-   <td><input type="checkbox" ${f.stan?"checked":""} data-k="stan"></td>
-   <td class="note">${esc(f.zr||"")}</td><td><button class="x" data-del="${f.id}" title="Usuń" type="button">×</button></td></tr>`).join("")+
+  const rozw=f=>FROZW_WSZ||FROZW.has(f.id); $("#tFil").classList.toggle("jestRozw",L.slice(0,FIL_LIMIT).some(rozw)); $("#filRozwWsz").textContent=FROZW_WSZ?"－ Zwiń wszystkie":"＋ Rozwiń wszystkie";
+  $("#tFil").innerHTML="<tr><th class=owner-only></th><th>Kolor</th><th>Nazwa</th><th class=det>Kod</th><th class=det>Typ</th><th class=\"n det\">Cena szpuli</th><th class=\"n det\">Waga</th><th class=\"n det\">zł/kg</th><th class=det>Wygląd</th><th class=\"n det\">Szpul</th><th class=det>Zostało</th><th class=det>Na stanie</th><th class=det>Źródło</th><th class=det></th></tr>"+
+   L.slice(0,FIL_LIMIT).map(f=>`<tr data-id="${f.id}" class="${rozw(f)?"rozw":"zw"}"><td class=owner-only><input type="checkbox" data-sel="${f.id}" ${FSEL.has(f.id)?"checked":""} style="width:20px;height:20px"></td><td><input type="color" value="${esc(f.kolor)}" data-k="kolor" style="width:42px;height:30px;margin:0"></td>
+   <td class="filNaz"><div class="filNazW"><button type="button" class="filPlus" data-rozw="${f.id}" title="${rozw(f)?"Zwiń":"Pokaż szczegóły"}" aria-expanded="${rozw(f)}">${rozw(f)?"−":"+"}</button><input value="${esc(f.nazwa)}" data-k="nazwa" style="min-width:140px;margin:0;flex:1"></div>${(f.aliasy&&f.aliasy.length)?`<div class="aliasy">${f.aliasy.map((a,i)=>`<span class="al">= ${esc(a)}<button type="button" class="owner-only" data-ral="${f.id}|${i}" title="Rozłącz tę nazwę">✕</button></span>`).join("")}</div>`:""}${f.drk?`<div class="aliasy"><span class="al dr">🖨 ${esc(f.drkSlot||"CFS")}: ${esc(f.drkNazwa||"")}<button type="button" class="owner-only" data-rdr="${f.id}" title="Odłącz od slotu drukarki">✕</button></span></div>`:""}</td><td class="det"><input value="${esc(f.kod)}" data-k="kod" style="width:110px;margin:0"></td><td class="det">${esc(f.typ)}</td>
+   <td class="n det"><input type="number" step="0.01" value="${+f.cena}" data-k="cena" style="width:90px;margin:0"></td><td class="n det"><input type="number" value="${+f.waga}" data-k="waga" style="width:80px;margin:0"></td>
+   <td class="n det">${zl(zlkg(f))}</td><td class="det"><select data-k="wyk" style="margin:0;width:auto">${WYK.map(w=>`<option ${(f.wyk||"standard")===w?"selected":""}>${w}</option>`).join("")}</select></td><td class="n det"><input type="number" min="0" value="${+(f.szpul??0)}" data-k="szpul" style="width:60px;margin:0"><button class="b2" data-zuz="${f.id}" title="Szpula zużyta" type="button" style="padding:2px 6px;margin-left:4px">−1</button></td>
+   <td class="det"><button class="zostBtn ${zostaloProc(f)<15?"malo":""}" type="button" data-zost="${f.id}" title="Kliknij, żeby ustawić ile zostało"><span class="pas"><i style="width:${zostaloProc(f)}%"></i></span><b>${zostaloProc(f)}%</b><small>${Math.round(zostaloG(f))} g</small></button></td>
+   <td class="det"><input type="checkbox" ${f.stan?"checked":""} data-k="stan"></td>
+   <td class="note det">${esc(f.zr||"")}</td><td class="det"><button class="x" data-del="${f.id}" title="Usuń" type="button">×</button></td></tr>`).join("")+
    (L.length>FIL_LIMIT?`<tr><td colspan=14><button class="b2" type="button" id="filWiecej">Pokaż kolejne ${Math.min(150,L.length-FIL_LIMIT)}</button></td></tr>`:"");
   $$("#tFil [data-ral]").forEach(b=>b.onclick=()=>{ const [id,i]=b.dataset.ral.split("|"); const f=S.filaments.find(x=>x.id===id); if(!f) return; migawka("Rozłączono nazwę");
     const nm=f.aliasy.splice(+i,1)[0]; const sc=(f.scalone||[]).find(x=>x.nazwa===nm);
@@ -1342,6 +1349,8 @@ function renderFil(){
     persist("filaments"); renderAll(); cofnijBar(); });
   $$("#tFil [data-rdr]").forEach(b=>b.onclick=()=>{ const f=S.filaments.find(x=>x.id===b.dataset.rdr); if(!f) return; migawka("Odłączono od slotu drukarki"); odlacz(f,true); persist("filaments"); persist("printer"); renderAll(); cofnijBar(); });
   $$("#tFil [data-zost]").forEach(b=>b.onclick=()=>ustawZostalo(b.dataset.zost));
+  $$("#tFil [data-rozw]").forEach(b=>b.onclick=()=>{ const id=b.dataset.rozw; if(FROZW_WSZ){ FROZW_WSZ=false; L.slice(0,FIL_LIMIT).forEach(x=>FROZW.add(x.id)); } FROZW.has(id)?FROZW.delete(id):FROZW.add(id); renderFil(); });
+  $("#filRozwWsz").onclick=()=>{ FROZW_WSZ=!FROZW_WSZ; FROZW.clear(); renderFil(); };
   $$("#tFil [data-sel]").forEach(c=>c.onchange=()=>{ c.checked?FSEL.add(c.dataset.sel):FSEL.delete(c.dataset.sel); renderFil(); });
   const wi=$("#filWiecej"); if(wi) wi.onclick=()=>{ FIL_LIMIT+=150; renderFil(); };
   const su=$("#filSmUsun"); if(su) su.onclick=async()=>{ const L2=S.filaments.filter(f=>filImport(f)&&!filMoja(f));

@@ -1,13 +1,10 @@
 {
  "wersja": 2026112113,
  "opis": [
+  "Filamenty: lista zwinięta – domyślnie tylko kolor i nazwa. Przycisk „+” przy filamencie pokazuje wszystkie dane, „＋ Rozwiń wszystkie” rozwija całą listę",
   "Wydruki z OSTRZA: nowa karta w Filamentach. Połącz raz folder Dokumenty\\DRUKUJ3D, a program co minutę czyta druki.json i pokazuje listę wydruków ze slicera",
-  "Wydruk z OSTRZA, który pojawi się w historii drukarki, odejmuje się od szpul według slicera: gramy na każdy slot, dokładnie na przypisaną szpulę. Tylko raz – zapis i wysłanie tego samego pliku liczą się jako jeden wydruk, przerwany wydruk odejmuje tylko to, co zeszło",
-  "Wydruk, którego drukarka nie widziała: przycisk „Odejmij” (z wyborem szpuli), „Pomiń” albo „Cofnij”",
-  "Cennik dla OSTRZE (filamenty.json) zapisuje się sam do folderu DRUKUJ3D po każdej zmianie filamentów"
+  "Wydruk z OSTRZA, który pojawi się w historii drukarki, odejmuje się od szpul według slicera: gramy na każdy slot, dokładnie na przypisaną szpulę. Tylko raz – zapis i wysłanie tego samego pliku liczą się jako jeden wydruk, przerwany wydruk odejmuje tylko to, co zeszło"
  ],
  "paczka": "DRUKUJ 3D 1.5",
- "opisKlient": [
-  "Drobne poprawki"
- ]
+ "opisKlient": []
 }
