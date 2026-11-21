@@ -1,9 +1,10 @@
 {
- "wersja": 2026112109,
+ "wersja": 2026112110,
  "opis": [
   "Publikacja na Facebooku: w Katalogu przycisk „📣 Post / oferta” – program robi grafikę z produktem i ceną oraz gotowy tekst",
   "Przyciski „📣 Opublikuj na Facebooku”, „📅 Zaplanuj w Metricool” i „🖼 Zapisz grafikę”. Na telefonie otwiera się okno Udostępnij (Facebook, Metricool, Messenger), tekst trafia do schowka",
   "Nowy „Post z nowościami” – do 4 produktów na jednej grafice",
+  "Bezpieczeństwo: stawki w ofercie publikowanej na stronę są teraz zakodowane (wcześniej było widać stawkę godzinową i cenę za gram)",
   "Wymaga nowej aplikacji na telefon (zainstaluje się z aktualizacją)"
  ],
  "paczka": "DRUKUJ 3D 1.5",
