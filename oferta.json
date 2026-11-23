@@ -1,0 +1,194 @@
+{
+ "aktualizacja": "2026-11-23T06:41:43.502Z",
+ "filamenty": [
+  {
+   "id": "mw3bjo8wjq0re",
+   "nazwa": "Silk Pla Army",
+   "typ": "PLA",
+   "kolor": "#768240",
+   "wyk": "silk"
+  },
+  {
+   "id": "mw3bmvkt1vgal",
+   "nazwa": "Pla Gray",
+   "typ": "PLA",
+   "kolor": "#bfbfbf",
+   "wyk": "standard"
+  },
+  {
+   "id": "mw3c0ts2tizpf",
+   "nazwa": "Matte Blue",
+   "typ": "PLA",
+   "kolor": "#427bc9",
+   "wyk": "mat"
+  },
+  {
+   "id": "mw3d91pfls1n0",
+   "nazwa": "Petg Black Matte",
+   "typ": "PETG",
+   "kolor": "#000000",
+   "wyk": "mat"
+  },
+  {
+   "id": "mw3de2cyc6fsq",
+   "nazwa": "Pla+ Orange",
+   "typ": "PLA",
+   "kolor": "#ff9900",
+   "wyk": "standard"
+  },
+  {
+   "id": "mw3digd83uhkn",
+   "nazwa": "Petg Black",
+   "typ": "PETG",
+   "kolor": "#000000",
+   "wyk": "standard"
+  },
+  {
+   "id": "mw3dlfok8rhbg",
+   "nazwa": "Petg Transparent",
+   "typ": "PLA",
+   "kolor": "#f2fcff",
+   "wyk": "przezroczysty"
+  },
+  {
+   "id": "mw3dnonl78zid",
+   "nazwa": "Petg Gold/Copper",
+   "typ": "PETG",
+   "kolor": "#e0cc85",
+   "wyk": "brokat"
+  },
+  {
+   "id": "mw3ds1y3hpht0",
+   "nazwa": "Pla Red Matte",
+   "typ": "PLA",
+   "kolor": "#ff0000",
+   "wyk": "mat"
+  },
+  {
+   "id": "mw3e2ll25d54r",
+   "nazwa": "Petg Blue",
+   "typ": "PETG",
+   "kolor": "#0000ff",
+   "wyk": "standard"
+  },
+  {
+   "id": "mw3e5m4dglxj2",
+   "nazwa": "Pla+ Silk Dual Color Black-Purple",
+   "typ": "PLA Silk",
+   "kolor": "#67238c",
+   "wyk": "silk"
+  },
+  {
+   "id": "mw3eawpqrqvzm",
+   "nazwa": "Pla Silk Tri Color Orange-Blue-Green",
+   "typ": "PLA",
+   "kolor": "#ff9900",
+   "wyk": "silk"
+  },
+  {
+   "id": "mw3eeaynf0bvo",
+   "nazwa": "Pla Silk Tri Color Sunset Horizon",
+   "typ": "PLA",
+   "kolor": "#cb40de",
+   "wyk": "silk"
+  },
+  {
+   "id": "mw3eh11106j1w",
+   "nazwa": "Pla Silk Silver",
+   "typ": "PLA",
+   "kolor": "#dedede",
+   "wyk": "silk"
+  },
+  {
+   "id": "mw3ej38ewxma1",
+   "nazwa": "Pla Silk Light Gold",
+   "typ": "PLA",
+   "kolor": "#ffcc00",
+   "wyk": "silk"
+  },
+  {
+   "id": "mw3elxedrogc5",
+   "nazwa": "Pla Glow in the Dark Blue",
+   "typ": "PLA",
+   "kolor": "#e8fcff",
+   "wyk": "przezroczysty"
+  },
+  {
+   "id": "mw3enopk3g2zl",
+   "nazwa": "Pla Luminous White",
+   "typ": "PLA",
+   "kolor": "#d7f5ff",
+   "wyk": "przezroczysty"
+  },
+  {
+   "id": "mw3epwbtypor8",
+   "nazwa": "Petg Green",
+   "typ": "PETG",
+   "kolor": "#06ab00",
+   "wyk": "standard"
+  },
+  {
+   "id": "mw3etk57m8vab",
+   "nazwa": "Petg White",
+   "typ": "PETG",
+   "kolor": "#ffffff",
+   "wyk": "standard"
+  },
+  {
+   "id": "mw3evkiru83wu",
+   "nazwa": "Abs+ Brown",
+   "typ": "ABS",
+   "kolor": "#994500",
+   "wyk": "standard"
+  },
+  {
+   "id": "mw3exix54ggrm",
+   "nazwa": "Petg Copper/Light Brown",
+   "typ": "PETG",
+   "kolor": "#c98600",
+   "wyk": "standard"
+  },
+  {
+   "id": "mwkgald6nat95",
+   "nazwa": "Tpu White",
+   "typ": "TPU",
+   "kolor": "#ffffff",
+   "wyk": "standard"
+  },
+  {
+   "id": "mwkgceh1b40sq",
+   "nazwa": "Tpu Blue",
+   "typ": "TPU",
+   "kolor": "#0000ff",
+   "wyk": "standard"
+  },
+  {
+   "id": "mwkgdliqb78yl",
+   "nazwa": "Tpu Transparent",
+   "typ": "TPU",
+   "kolor": "#f2f7ff",
+   "wyk": "standard"
+  },
+  {
+   "id": "mwkuy84rb4cmk",
+   "nazwa": "Tpu Black",
+   "typ": "TPU",
+   "kolor": "#000000",
+   "wyk": "standard"
+  },
+  {
+   "id": "mwmfar7fi3rsy",
+   "nazwa": "HYPER PLA",
+   "typ": "PLA",
+   "kolor": "#ffffff",
+   "wyk": "silk"
+  }
+ ],
+ "u": "HxFJClteVF1fWA4TQ2kIUAsBYAoeE01JTk9YQCJcN0lZYENdSVZKVkEdfQdzRgkdbEhIRQgjPzc9D3ECSgIZblsDJi0gWFlKA3oBSBFKAyolRVVDVFJCAWlVMGN4YENUSV1LVkEdfht3JxEXcldVU0NRDQofQSQQXgEYblsBDBxRQFZKAWlBFFZOYENXV0NRCFJKD3EDVB8PMExURVVBSk9YTnoQXgQUblsHVU1JS1ZDAWlRVxEXcUBdS00cGBFYF30GSBFALR1GXVZFVkEXQi9iRgkccElIRR8DMkFAG38eRkN9LR0URVVCTE9YXRhICFpLYENWU0NRCi4bQWkIUAMBYAkoBgRRQFVOAWlCJVBIYENWU0NRCigWSCEQXgcdblsUNx0JAwRYF3seRlR9DjgnIU1JSk1IGWcQA2NoFjoiRVVDVFBIAWlVJXF+AT9GXV9dSU9YShtzRgkdbEtcS00UKiI5a2kIVB0Zd1VGAD8wWFlKA3geRkdgKxdGXVZKVkERQicQXgNQ",
+ "kontakt": {
+  "email": "drukuj3dmtw@proton.me",
+  "tel": "",
+  "fb": "https://www.facebook.com/profile.php?id=61596449963210",
+  "miasto": "Bydgoszcz"
+ }
+}
