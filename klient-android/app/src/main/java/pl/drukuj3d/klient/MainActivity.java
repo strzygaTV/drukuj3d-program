@@ -29,6 +29,8 @@ public class MainActivity extends Activity {
 
     public class Most {
         @JavascriptInterface public String wersja() { return "beta"; }
+        /** Znacznik apek zbudowanych od startu serwisu (2026112134). */
+        @JavascriptInterface public String kanal() { return "2026112134"; }
         /** Numer wersji aplikacji – strona porównuje go z najnowszym wydaniem i proponuje aktualizację. */
         @JavascriptInterface public long kod() {
             try { return getPackageManager().getPackageInfo(getPackageName(), 0).getLongVersionCode(); } catch (Exception e) { return 0; }
