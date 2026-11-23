@@ -1,6 +1,6 @@
 # DRUKUJ 3D – drukarnia 3D, Bydgoszcz
 
-**Strona dla klientów (cennik, wycena z pliku, kontakt):** https://strzygatv.github.io/drukuj3d-program/
+**Strona dla klientów (cennik, wycena z pliku, kontakt):** https://de3de.pl/
 
 **Aplikacja na Androida:** [pobierz APK](https://github.com/strzygaTV/drukuj3d-program/releases/download/beta/DRUKUJ3D-klient-beta.apk)
 

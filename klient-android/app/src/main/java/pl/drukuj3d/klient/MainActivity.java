@@ -21,7 +21,8 @@ import android.webkit.WebViewClient;
  * Uprawnienia: tylko INTERNET. Żadnych danych właściciela.
  */
 public class MainActivity extends Activity {
-    private static final String ONLINE = "https://strzygatv.github.io/drukuj3d-program/";
+    private static final String ONLINE = "https://de3de.pl/";
+    private static final String ONLINE_STARY = "https://strzygatv.github.io/drukuj3d-program/";   // GitHub przekierowuje go na de3de.pl
     private static final String OFFLINE = "file:///android_asset/index.html";
     private WebView web;
     private ValueCallback<Uri[]> fileCallback;
@@ -53,7 +54,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
                 String u = r.getUrl().toString();
-                if (u.startsWith(ONLINE) || u.startsWith("file:///android_asset/")) return false;
+                if (u.startsWith(ONLINE) || u.startsWith(ONLINE_STARY) || u.startsWith("file:///android_asset/")) return false;
                 try { startActivity(new Intent(Intent.ACTION_VIEW, r.getUrl())); } catch (ActivityNotFoundException ignored) { }
                 return true;
             }
