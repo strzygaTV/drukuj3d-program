@@ -1077,8 +1077,8 @@ const NOWE_OFERTY=true;    // litery LED, lampy i abażury, materiały techniczn
 const APK_AKTUALIZACJE=true;    // komunikat „Jest nowsza wersja aplikacji” u klienta – wyłączony
 if(!NOWE_OFERTY) document.body.classList.add("bezNowych");
 const VIEWS=[["cennik","Cennik",0],["litery","Litery LED",0],["lampy","Lampy 3D",0],["pulpit","Pulpit",1],["kalk","Kalkulator",1],["filamenty","Filamenty",1],["sprzedaz","Sprzedaż",1],["katalog","Na zamówienie",0],["oferta","Oferta",0],["koszty","Koszty",1],["ust","Ustawienia",1]].filter(v=>NOWE_OFERTY||!["litery","lampy"].includes(v[0]));
-function go(v){ if(v==="lampy"){ v="cennik"; setTimeout(()=>{zwPokaz("lampy");},120); } if(v==="litery"){ v="cennik"; setTimeout(()=>{zwPokaz("litery");},120); } if(v==="skan"){ v="filamenty"; setTimeout(()=>{const c=document.getElementById("skanCard"); if(c) c.scrollIntoView({behavior:"smooth"});},120); } if(!VIEWS.find(x=>x[0]===v)) v="pulpit";
-  if(document.body.classList.contains("client") && VIEWS.find(x=>x[0]===v)[2]) v="cennik";
+function go(v){ if(v==="lampy"){ v="cennik"; setTimeout(()=>{zwPokaz("lampy");},120); } if(v==="litery"){ v="cennik"; setTimeout(()=>{zwPokaz("litery");},120); } if(v==="skan"&&document.getElementById("ofSkan")){ v="cennik"; setTimeout(()=>{ const o=document.getElementById("ofSkan"); if(o&&o.getAttribute("aria-expanded")!=="true") o.click(); },150); } if(v==="skan"){ v="filamenty"; setTimeout(()=>{const c=document.getElementById("skanCard"); if(c) c.scrollIntoView({behavior:"smooth"});},120); } if(!VIEWS.find(x=>x[0]===v)) v="pulpit";
+  if(document.body.classList.contains("client") && VIEWS.find(x=>x[0]===v)[2] || !document.getElementById("v-"+v)) v="cennik";
   $$("section.view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));
   $$("#nav button").forEach(b=>b.setAttribute("aria-current",b.dataset.v===v?"page":"false")); $$("#menuNav [data-mv]").forEach(b=>b.setAttribute("aria-current",b.dataset.mv===v?"page":"false")); scrollTo(0,0);
   if(location.hash!=="#"+v) history.replaceState(null,"","#"+v); }
