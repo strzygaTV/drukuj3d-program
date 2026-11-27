@@ -16,7 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 /**
- * DRUKUJ 3D – aplikacja dla klientów (beta). Pokazuje stronę z cennikiem i wyceną.
+ * DRUKUJ 3D – aplikacja dla klientów (wersja 1.0). Pokazuje stronę z cennikiem i wyceną.
  * Najpierw próbuje wersji z internetu (zawsze aktualna), a bez sieci otwiera kopię zapisaną w aplikacji.
  * Uprawnienia: tylko INTERNET. Żadnych danych właściciela.
  */
@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
     private boolean offline = false;
 
     public class Most {
-        @JavascriptInterface public String wersja() { return "beta"; }
+        @JavascriptInterface public String wersja() { return "1.0"; }
         /** Znacznik apek zbudowanych od startu serwisu (2026112134). */
         @JavascriptInterface public String kanal() { return "2026112134"; }
         /** Numer wersji aplikacji – strona porównuje go z najnowszym wydaniem i proponuje aktualizację. */

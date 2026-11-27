@@ -2346,7 +2346,7 @@ function startAuto(){ if(autoStarted) return; autoStarted=true; kluczKopia(); mi
 function renderPar(){ const k=$("#parKpi"); if(!k) return; const g=ghCfg(), ok=ghOK();
   $("#parNowe").style.display= ok?"none":""; $("#parPlik").classList.toggle("hidden",!(ok&&PULPIT)); $("#parQr").style.display= ok&&!window.Android?"":"none"; $("#ghClear").style.display=ok?"":"none"; $("#parTeraz").style.display=ok?"":"none";
   k.innerHTML=[["To urządzenie",window.Android?"📱 telefon":ARTEFAKT?"🌐 Claude (podgląd)":"💻 komputer",""],["Połączenie",ok?"✓ połączone":"✗ brak",ok?g.repo:"zrób kroki poniżej"],
-    ["Ostatnia synchronizacja",S._lastSync?hhmm(S._lastSync):"–",S._lastSync?new Date(S._lastSync).toLocaleDateString("pl-PL"):""],["Wersja aplikacji",String(APP_WERSJA).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)$/,"$1.$2.$3 nr $4"),""]].map(([a,b,c])=>`<div><span>${a}</span><b>${b}</b><span>${esc(c)}</span></div>`).join("");
+    ["Ostatnia synchronizacja",S._lastSync?hhmm(S._lastSync):"–",S._lastSync?new Date(S._lastSync).toLocaleDateString("pl-PL"):""],["Wersja aplikacji",APP_WYDANIE+" ("+String(APP_WERSJA).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)$/,"$1.$2.$3 nr $4")+")",""]].map(([a,b,c])=>`<div><span>${a}</span><b>${b}</b><span>${esc(c)}</span></div>`).join("");
   const r=$("#ghRepo"); if(r && document.activeElement!==r) r.value=g.repo||GH_DEF_REPO; }
 function renderGh(){ renderPar(); let k=""; try{ k=localStorage.getItem(CK)||""; }catch(e){} $("#ckKey").value=k?"••••••••••••":""; const sm=$("#syncMode"); if(sm) sm.value=S.settings.sync==="reczna"?"reczna":"auto"; }
 async function ghConnect(repo,token){
@@ -2576,7 +2576,7 @@ async function zmienSloty(lista){ const wyb=await zapytajDopasowanie(lista,true)
 $("#cfsIp").onchange=e=>{ const v=e.target.value.trim(); if(!v||/^\d{1,3}(\.\d{1,3}){3}$/.test(v)){ S.settings.drukarkaIP=v; persist("settings"); if(v) prnSync(false); } else toast("Wpisz adres w postaci 192.168.1.50"); };
 
 /* ================= AUTOMATYCZNA AKTUALIZACJA APLIKACJI ================= */
-const APP_WERSJA=2026112141;
+const APP_WERSJA=2026112141; const APP_WYDANIE="1.0";   // numer wydania dla ludzi (1.0 = pierwsza oficjalna); APP_WERSJA służy do aktualizacji
 const NAT_WEB=!!(window.Android && typeof Android.saveWebApp==="function");
 const PULPIT=!ARTEFAKT && location.protocol==="file:";
 function idb(){ return new Promise((ok,no)=>{ try{ const r=indexedDB.open("drukuj3d",1); r.onupgradeneeded=()=>r.result.createObjectStore("kv"); r.onsuccess=()=>ok(r.result); r.onerror=()=>no(r.error); }catch(e){ no(e); } }); }
@@ -2624,7 +2624,7 @@ $("#updBtn").onclick=()=>{ checkUpdate(true); setTimeout(()=>checkApk(true),1500
 $("#setFont").onchange=e=>{ S.settings.font=e.target.value; persist("settings"); stosujFont(); };
 $("#kluczBtn").onclick=()=>programZKluczem();
 function pokazPoAktualizacji(){ if(STRONA) return; let info=null; try{ info=JSON.parse(localStorage.getItem("drukuj3d_po_akt")||"null"); }catch(e){} if(!info) return; localStorage.removeItem("drukuj3d_po_akt");
-  setTimeout(()=>ask(`<h3 style="margin-top:0">✅ Aplikacja zaktualizowana</h3><p>Wersja <b>${esc(String(info.wersja).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)$/,"$1.$2.$3 nr $4"))}</b> jest już na tym urządzeniu.</p>`+
+  setTimeout(()=>ask(`<h3 style="margin-top:0">✅ Aplikacja zaktualizowana</h3><p>Wersja <b>${info.wydanie?esc(info.wydanie)+" – ":""}${esc(String(info.wersja).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)$/,"$1.$2.$3 nr $4"))}</b> jest już na tym urządzeniu.</p>`+
     (info.opis?`<p><b>Co nowego:</b></p><ul>${[].concat(info.opis).slice(0,4).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:"")+
     (info.paczka?`<div class="card" style="margin:10px 0 0;background:var(--okBg);color:var(--ok)">📦 <b>${esc(info.paczka)}</b></div>`:""),true),400); }
 

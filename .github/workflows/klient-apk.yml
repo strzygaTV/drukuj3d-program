@@ -1,4 +1,4 @@
-name: Aplikacja klienta (beta) – APK
+name: Aplikacja klienta – APK
 on:
   workflow_dispatch:
   push:
@@ -52,4 +52,4 @@ jobs:
           gh release view beta >/dev/null 2>&1 || gh release create beta --title "DRUKUJ 3D – aplikacja dla klientów (beta)" --notes "Wersja testowa. Pobierz plik APK, otwórz go na telefonie z Androidem i zezwól na instalację." --latest
           gh release upload beta DRUKUJ3D-klient-beta.apk --clobber
           # kod=N w opisie: strona porównuje go z numerem zainstalowanej apki i proponuje aktualizację
-          gh release edit beta --title "DRUKUJ 3D – aplikacja dla klientów" --notes "Pobierz plik APK, otwórz go na telefonie z Androidem i zezwól na instalację. Aplikacja pokazuje zawsze aktualną ofertę ze strony. kod=${GITHUB_RUN_NUMBER}"
+          gh release edit beta --title "DRUKUJ 3D – aplikacja dla klientów 1.0" --notes "Wersja 1.0 – pierwsza oficjalna. Pobierz plik APK, otwórz go na telefonie z Androidem i zezwól na instalację. Aplikacja pokazuje zawsze aktualną ofertę ze strony. kod=${GITHUB_RUN_NUMBER}"
