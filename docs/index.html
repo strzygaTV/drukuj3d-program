@@ -538,7 +538,7 @@ body.bezNowych #oferty,body.bezNowych #techMat,body.bezNowych #litery,body.bezNo
    <label>Ilość sztuk<input id="cIl" type="number" min="1" step="1" value="1"></label>
    <label>Skala [%]<input id="cSk" type="number" min="1" step="1" value="100"></label>
    <label class="techDane">Wypełnienie [%]<input id="cInf" type="number" min="0" max="100" step="5" value="15"></label>
-   <label>Kolory<select id="cKol"><option value="1">1 kolor</option><option value="2">2–4 kolory (CFS)</option></select></label>
+   <label>Kolory<select id="cKol"><option value="1">1 kolor</option><option value="2">2–4 kolory – CFS, jeden wydruk</option><option value="3">2–4 kolory – osobne płyty</option></select></label>
    <div class="note" id="cSpecInfo" style="grid-column:1/-1"></div>
    <div id="cKolDod" class="hidden" style="grid-column:1/-1"><div class="note" style="margin-bottom:4px">Dodatkowe kolory:</div><div class="grid"><label>Kolor 2<select class="cKd"></select></label><label>Kolor 3<select class="cKd"></select></label><label>Kolor 4<select class="cKd"></select></label></div></div>
    <div id="cMieszInfo" class="alert hidden" style="grid-column:1/-1" role="alert"></div>
@@ -1816,28 +1816,35 @@ function cKolorek(){ const c=usl(), sp=cFile().some(jestSpec); const inf=$("#cSp
   const fsT=cFile(), te=fsT.filter(jestTech), tpu=$("#cKol").value==="2"&&fsT.length>1&&fsT.some(f=>matKat(f)==="TPU");
   if(inf) inf.innerHTML=[sp?`✨ Filament specjalny (jedwabny, wielokolorowy, świecący, fluo, brokat) – dopłata ${c.spec}%`:"",
     te.length?`🧪 Materiał techniczny na zamówienie (${esc([...new Set(te.map(f=>TECH.find(t=>t.k===matKat(f)).typ))].join(", "))}) – sprowadzamy go pod Twoje zlecenie, realizacja dłuższa o 3–7 dni.${te.some(f=>(TECH.find(t=>t.k===matKat(f))||{}).p)?" Zlecenie potwierdzamy po sprawdzeniu pliku.":""}`:"",
+    $("#cKol").value==="2"?`🎨 <b>Kolory w jednym wydruku (CFS)</b> – drukarka zmienia kolor w trakcie, dostajesz gotowy element w jednym kawałku. Dopłata ${c.wielo}% za druk wielokolorowy.`:"",
+    $("#cKol").value==="3"?"🎨 <b>Osobna płyta na każdy kolor</b> – każdy kolor drukujemy osobno, bez dopłaty za druk wielokolorowy. Dostajesz części do złożenia (na wcisk lub do sklejenia – klejenie możesz dodać w wykończeniu). Granice kolorów są idealnie czyste.":"",
     tpu?"ℹ️ TPU podajemy z osobnej szpuli, a nie przez system wielokolorowy CFS – wydruk TPU z innymi kolorami tylko po uzgodnieniu.":""].filter(Boolean).join("<br>");
   const f=filZ($("#cMat").value); $("#cMat").style.borderLeft=f?`14px solid ${f.kolor}`:""; $$("#cKolDod .cKd").forEach(sel=>{ const g=filZ(sel.value); sel.style.borderLeft=g?`14px solid ${g.kolor}`:""; });
-  $("#cKolDod").classList.toggle("hidden",$("#cKol").value!=="2");
+  $("#cKolDod").classList.toggle("hidden",$("#cKol").value==="1");
   const mo=$("#cMieszInfo"); if(mo){ const w=cMiesz(); mo.className="alert"+(w?" "+w.poz:" hidden"); mo.innerHTML=w?w.html:""; } }
 const kl=()=>document.body.classList.contains("client")||!isOwner;
 function cLicz(){ cKolorek(); const c=usl(), fs=cFile(); const kat=fs.length?fs.map(matKat).sort((a,b)=>c[C_MAT.find(m=>m[0]===b)[2]]-c[C_MAT.find(m=>m[0]===a)[2]])[0]:"PLA"; const mat=C_MAT.find(m=>m[0]===kat);
   const gCena=fs.length?Math.max(...fs.map(f=>zlG(f,c))):c.gPLA;
   const g=Math.max(0,+$("#cG").value||0), h=Math.max(0,+$("#cH").value||0), il=Math.max(1,Math.round(+$("#cIl").value||1));
-  const wielo=$("#cKol").value==="2"?1+c.wielo/100:1; const sp=fs.some(jestSpec)?1+c.spec/100:1;
-  const jedn=Math.max(c.minSzt,(h*c.dH+g*gCena)*wielo*sp+c.szt);   // każdy wydruk to też wyjęcie, oczyszczenie, kontrola i pakowanie
+  const kTryb=$("#cKol").value, nKol=kTryb==="1"?1:Math.max(2,1+$$("#cKolDod .cKd").filter(x=>x.value).length);
+  const wielo=kTryb==="2"?1+c.wielo/100:1; const sp=fs.some(jestSpec)?1+c.spec/100:1;
+  const plyt=kTryb==="3"?nKol:1;   // osobne płyty: bez dopłaty CFS, ale każda płyta to osobne przygotowanie, zdjęcie i kontrola
+  const jedn=Math.max(c.minSzt,(h*c.dH+g*gCena)*wielo*sp+c.szt*plyt);
+  const jednA=kTryb==="1"?0:Math.max(c.minSzt,(h*c.dH+g*gCena)*(kTryb==="2"?1:1+c.wielo/100)*sp+c.szt*(kTryb==="2"?nKol:1));   // drugi wariant – do porównania   // każdy wydruk to też wyjęcie, oczyszczenie, kontrola i pakowanie
   const rab=il>=50?c.r50:il>=10?c.r10:0; const druk=jedn*il*(1-rab/100)+c.pPrzyg;
   const skan=[0,c.c1,c.c2,c.c3][+$("#cSkan").value||0], obr=(+$("#cObr").value||0)*c.obr, mod=(+$("#cMod").value||0)*c.mod;
   const pp=[...CPP].reduce((a,k)=>a+c[k],0)*il;
   let razem=druk+skan+obr+mod+pp; const eks=$("#cEks").value==="1"?razem*c.eks/100:0; razem+=eks; const mn=fs.some(jestTech)?Math.max(c.min,c.tMin||0):c.min; const doMin=Math.max(0,mn-razem); razem=Math.round(Math.max(razem,mn)*100)/100;   // dokładna kwota, bez zaokrąglania w górę
-  window.CWYC={g,h,il,mat:mat[0],fil:fs.map(f=>f.nazwa),jedn,druk,skan,obr,mod,pp,eks,rab,razem,nazwa:(CMOD&&CMOD.nazwa)||"Wydruk 3D"};
-  const tm=terminDruk({h,il,multi:$("#cKol").value==="2",pp:CPP.size>0,mod:+$("#cMod").value||0,skan:+$("#cSkan").value||0,tech:fs.some(jestTech),prio:$("#cEks").value==="1"}); window.CWYC.tm=tm;
+  let razA=0; if(kTryb!=="1"){ razA=jednA*il*(1-rab/100)+c.pPrzyg+skan+obr+mod+pp; if($("#cEks").value==="1") razA*=1+c.eks/100; razA=Math.round(Math.max(razA,mn)*100)/100; }
+  const altHtml=kTryb==="1"?"":`<div class="note" style="grid-column:1/-1">Dla porównania – ${kTryb==="2"?`osobna płyta na każdy kolor (${nKol} płyty, części do złożenia)`:"wszystkie kolory w jednym wydruku (CFS)"}: <span style="font-weight:800;white-space:nowrap">${zl(razA)}</span> – wariant zmienisz w polu „Kolory”.</div>`;
+  window.CWYC={kTryb,nKol,razA,g,h,il,mat:mat[0],fil:fs.map(f=>f.nazwa),jedn,druk,skan,obr,mod,pp,eks,rab,razem,nazwa:(CMOD&&CMOD.nazwa)||"Wydruk 3D"};
+  const tm=terminDruk({h,il,multi:$("#cKol").value!=="1",pp:CPP.size>0,mod:+$("#cMod").value||0,skan:+$("#cSkan").value||0,tech:fs.some(jestTech),prio:$("#cEks").value==="1"}); window.CWYC.tm=tm;
   if($("#cTerm")) $("#cTerm").innerHTML=(kl()&&!CMOD)?"":terminHtml(tm,$("#cEks").value==="1"?"priorytet w kolejce":"");
   const r=[["Druk 1 szt."+(sp>1?" (filament specjalny)":""),zl(jedn)],["Druk razem"+(rab?` (−${rab}%)`:""),zl(druk)]]; if(skan) r.push(["Skanowanie",zl(skan)]); if(obr) r.push(["Obróbka skanu",zl(obr)]); if(mod) r.push(["Modelowanie",zl(mod)]); if(pp) r.push(["Wykończenie",zl(pp)]); if(eks) r.push(["Priorytet w kolejce",zl(eks)]); if(doMin>0.5) r.push(["Do minimum zamówienia",zl(doMin)]);
   r.push(["DO ZAPŁATY",zl(razem)]); if(il>1) r.push(["za sztukę",zl(Math.round(razem/il*100)/100)]);
   if(kl()){ if(!CMOD){ $("#cRes").innerHTML=`<div style="grid-column:1/-1"><span>Wrzuć plik STL, OBJ albo 3MF – cena policzy się od razu.</span></div>`; return; }
-    const rk=[["DO ZAPŁATY",zl(razem)]]; if(il>1) rk.push(["za sztukę",zl(Math.round(razem/il*100)/100)]); $("#cRes").innerHTML=rk.map(([a,b])=>`<div${a==="DO ZAPŁATY"?' class="suma"':""}><span>${a}</span><b>${b}</b></div>`).join("")+`<div class="note" style="grid-column:1/-1">Cena orientacyjna – potwierdzę ją po sprawdzeniu pliku.</div>`; return; }
-  $("#cRes").innerHTML=r.map(([a,b])=>`<div${a==="DO ZAPŁATY"?' class="suma"':""}><span>${a}</span><b>${b}</b></div>`).join("");
+    const rk=[["DO ZAPŁATY",zl(razem)]]; if(il>1) rk.push(["za sztukę",zl(Math.round(razem/il*100)/100)]); $("#cRes").innerHTML=rk.map(([a,b])=>`<div${a==="DO ZAPŁATY"?' class="suma"':""}><span>${a}</span><b>${b}</b></div>`).join("")+altHtml+`<div class="note" style="grid-column:1/-1">Cena orientacyjna – potwierdzę ją po sprawdzeniu pliku.</div>`; return; }
+  $("#cRes").innerHTML=r.map(([a,b])=>`<div${a==="DO ZAPŁATY"?' class="suma"':""}><span>${a}</span><b>${b}</b></div>`).join("")+altHtml;
   if($("#cLim")&&typeof L==="function"){ try{ const l=L(), zost=Math.max(0,l.kw-l.q[l.curQ]); $("#cLim").innerHTML=`<div class="alert ${razem>zost?"kr":razem>zost*0.5?"uw":"ok"}">To zlecenie zajmie ${pct(razem/l.kw)} limitu kwartału. Zostało ${zl(zost)}.</div>`; }catch(e){} } }
 function cModel(){ if(!CMOD) return; const sk=(+$("#cSk").value||100)/100, inf=Math.min(1,Math.max(0,(+$("#cInf").value||0)/100)), mat=matKat(filZ($("#cMat").value));
   const V=CMOD.V*sk*sk*sk/1000, A=CMOD.A*sk*sk/100, dim=CMOD.dim.map(d=>d*sk); const ro=(TECH.find(t=>t.k===mat)||{}).ro||(mat==="ABS"||mat==="ASA"?1.05:mat==="PETG"?1.27:mat==="TPU"?1.21:1.24);
@@ -1851,7 +1858,7 @@ $("#cPlik").onchange=async e=>{ const f=e.target.files[0]; e.target.value=""; if
 ["#cSk","#cInf"].forEach(id=>$(id).addEventListener("change",()=>CMOD?cModel():cLicz()));
 $("#cMat").addEventListener("change",()=>CMOD?cModel():cLicz());
 function cTekst(){ const w=window.CWYC; if(!w) return ""; const c=usl();
-  return [`Wycena – DRUKUJ 3D Bydgoszcz`,`${w.nazwa}: ${w.il} szt., ${w.fil.length?w.fil.join(" + "):w.mat}`,`• druk: ${zl(w.druk)}${w.rab?` (rabat ${w.rab}%)`:""}`]
+  return [`Wycena – DRUKUJ 3D Bydgoszcz`,`${w.nazwa}: ${w.il} szt., ${w.fil.length?w.fil.join(" + "):w.mat}${w.kTryb==="3"?` – osobna płyta na każdy kolor (${w.nKol} płyty, części do złożenia)`:w.kTryb==="2"?" – kolory w jednym wydruku (CFS)":""}`,`• druk: ${zl(w.druk)}${w.rab?` (rabat ${w.rab}%)`:""}`]
    .concat(w.skan?[`• skanowanie 3D: ${zl(w.skan)}`]:[],w.obr?[`• obróbka skanu: ${zl(w.obr)}`]:[],w.mod?[`• modelowanie: ${zl(w.mod)}`]:[],w.pp?[`• wykończenie: ${zl(w.pp)}`]:[],w.eks?[`• priorytet w kolejce: ${zl(w.eks)}`]:[])
    .concat([`Razem: ${zl(w.razem)}`,`Termin realizacji: ${w.tm?terminStr(w.tm):"ustalimy w wycenie"} od akceptacji pliku i wpłaty${$("#cEks").value==="1"?" (priorytet w kolejce)":""}${cFile().some(jestTech)?", z czasem na sprowadzenie materiału technicznego":""} – orientacyjnie, wiąże po naszym potwierdzeniu. Wysyłka do paczkomatu lub kurierem (+1–3 dni robocze) albo odbiór w umówionym punkcie w Bydgoszczy (po wpłacie z góry).`,`Cena orientacyjna – ostateczna po pocięciu pliku. Nie doliczam VAT.`],(()=>{ const m=cMiesz(); return m?[m.txt]:[]; })()).join("\n"); }
 $("#cKopiuj").onclick=()=>{ const t=cTekst(); if(!t) return;
