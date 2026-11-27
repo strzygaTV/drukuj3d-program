@@ -1651,7 +1651,7 @@ function zakUdz(lista,z){ const L=z==="p"?lista.slice(0,1):z==="pl"?lista.filter
 function zakBez(z,lica){ const r=[]; if(z==="p"&&lica) r.push([lica+" – bez (wykonujesz we własnym zakresie)",null]);
   if(z!=="pelny") r.push(["Oświetlenie LED, przewody i zasilacz – bez (po stronie agencji)",null]); return r; }
 function zakOpis(z,co){ return z==="pelny"?`Zestaw do samodzielnego montażu: ${co} z oświetleniem LED 12 V i opisanym przewodem + instrukcja PDF dla elektryka. Bez zasilacza 230 V, bez montażu i podłączenia.`
-  :`Wersja dla agencji reklamowych: ${z==="p"?"same puszki (obudowy), bez lic":"puszki z licami"}, bez LED, przewodów i zasilacza – oświetlenie, montaż i podłączenie po stronie agencji. Wymiary i głębokość puszek podamy w projekcie.`; }
+  :`Wersja dla agencji reklamowych: ${z==="p"?"same puszki (obudowy), bez lic":"puszki z licami"}, bez LED, przewodów i zasilacza – oświetlenie, montaż i podłączenie po stronie agencji. Wymiary i głębokość puszek podamy w projekcie. Cena orientacyjna – przy większym zleceniu ustalamy ją telefonicznie.`; }
 function zakPola(pre,pel){ [pre+"Zas",pre+"Sw"].forEach(i=>{ const e=document.getElementById(i), l=e&&e.closest("label"); if(l) l.classList.toggle("hidden",!pel); }); }
 /* ===== 2026112141: rozbicie ceny dla klienta – co jest osobno (suma = cena końcowa) ===== */
 const ROZ_LED={front:[["Puszki – obudowy liter",.45],["Lica – świecące wkładki",.25],["Oświetlenie LED 12 V, połączenia, wklejenie i test",.30]],
@@ -1676,6 +1676,16 @@ function kasRozbicie(){ const el=document.getElementById("kasRoz"); if(!el) retu
   const poz=rozDziel(baza,zu.udz); poz.push([s.m[1],s.m[2]?s.m[2]:"w cenie"]);
   if(pel) poz.push([s.z[1],s.z[2]?s.z[2]:"w cenie"],["Instrukcja PDF dla elektryka","w cenie"],["Zasilacz 230 V → 12 V – nie ma w zestawie",null]); else poz.push(...zakBez(s.zak[0],s.neon?"":"Lico"));
   el.innerHTML=rozHtml(poz.map(([t,v])=>[esc(t),v]),s.il,jeden,razem,otw,pel); }
+/* ===== 2026112141: podłoga ceny – część zestawu nie może być tańsza niż jej wydruk z pliku (te same stawki co Wycena) ===== */
+const PODL={st:0.5,wyd:40,gObud:1.24,gLico:1.27,kasD:80};   // st = część stawki godzinowej druku dla długich wydruków zestawu (0,5 = 16 zł/h przy 32 zł/h); cm³/h, g/cm³ PLA i PETG, głębokość kasetonu [mm]; ściany i tył 2 mm, lico 1,2 mm (jak w Bryłce)
+function podlDruk(v,gest,gm,cz){ const c=usl(); return (v/PODL.wyd+0.25*cz)*c.dH*PODL.st+v*gest*gm+c.szt*cz; }
+function podlK(cena,zu,fP,fL){ let k=1; zu.udz.forEach(([t,u],i)=>{ const f=i===0?fP:/^Lic/i.test(t)?fL:0; if(f&&cena*u>0) k=Math.max(k,f/(cena*u)); }); return k; }
+function ledPodl(s){ const H=s.w[0]*10, W=.65*H, D=ledGleb(s.w[0]), cz=Math.ceil(W/250)*Math.ceil(H/250), c=usl();
+  const vOb=(4.6*H*D*2+.42*H*W*2)*1.15/1000, vLi=s.ty[0]==="halo"?0:.42*H*W*1.2*1.15/1000;
+  return [podlDruk(vOb,PODL.gObud,c.gPLA,cz), vLi?podlDruk(vLi,PODL.gLico,c.gPETG,cz):0]; }
+function kasPodl(s){ const okr=s.typ[0]==="okr", dw=s.typ[0]==="kas2"?2:1, Wm=s.W*10, Hm=s.H*10, A=okr?Math.PI/4*Wm*Wm:Wm*Hm, P=okr?Math.PI*Wm:2*(Wm+Hm), cz=Math.ceil(Wm/250)*Math.ceil(Hm/250), c=usl();
+  const vOb=(P*PODL.kasD*2+(dw===1?A*2:0))*1.15/1000, vLi=A*1.2*1.15/1000*dw;
+  return [podlDruk(vOb,PODL.gObud,c.gPLA,cz), podlDruk(vLi,PODL.gLico,c.gPETG,cz*dw)]; }
 /* ===== LITERY PODŚWIETLANE LED (2026112117): cena końcowa brutto dla klienta ===== */
 const LED={
  wys:[[10,"10 cm",65],[15,"15 cm",99],[20,"20 cm",139],[25,"25 cm",179],[30,"30 cm (z części)",229],[40,"40 cm (z części)",329],[50,"50 cm (z części)",449]],          // zł za literę (krój prosty, lico świecące)
@@ -1692,7 +1702,7 @@ function ledOpt(sel,arr,f){ $(sel).innerHTML=arr.map((a,i)=>`<option value="${i}
 function ledWybor(){ const g=s=>+$(s).value||0; return {t:($("#ledTekst").value||"").trim(), w:LED.wys[g("#ledWys")], ty:LED.typ[g("#ledTyp")], k:LED.kroj[g("#ledKroj")], sw:LED.sw[g("#ledSw")], ob:LED.ob[g("#ledOb")], m:LED.mont[g("#ledMont")], z:LED.zas[g("#ledZas")], zak:ZAK[g("#ledZak")]||ZAK[0], il:Math.max(1,Math.round(+$("#ledIl").value||1))}; }
 function ledLicz(){ const s=ledWybor(), n=[...s.t.replace(/\s/g,"")].length, pel=s.zak[0]==="pelny";
   const zu=zakUdz(ROZ_LED[s.ty[0]]||ROZ_LED.front,s.zak[0]);
-  const zaLit=Math.round(s.w[2]*s.ty[2]*(1+(pel?s.sw[3]:0)+s.ob[3]+s.k[2])*zu.f*100)/100;
+  const zaLit0=s.w[2]*s.ty[2]*(1+(pel?s.sw[3]:0)+s.ob[3]+s.k[2])*zu.f, [fP,fL]=ledPodl(s), zaLit=Math.round(zaLit0*podlK(zaLit0,zu,fP,fL)*100)/100;
   const jeden=Math.round((zaLit*n + s.m[2] + (pel?s.z[2]:0))*100)/100;
   const razem=n?Math.max(LED.min,Math.round(jeden*s.il*100)/100):0;
   return {s,n,zaLit,jeden,razem,zu,pel}; }
@@ -15188,7 +15198,7 @@ function kasWybor(){ const g=i=>+(($id(i)||{}).value)||0, v=i=>(($id(i)||{}).val
   return {typ,neon,W,H,t:v("kasTekst").trim(),nh:Math.max(10,Math.min(60,g("kasNh")||20)),gr:KAS.gr[g("kasGr")],nt:KAS.ntor[g("kasNTor")]||KAS.ntor[0],nb:KAS.ntab[g("kasNTab")]||KAS.ntab[0],sw:LED.sw[g("kasSw")],ob:LED.ob[g("kasOb")],m:KAS.mont[g("kasMont")],z:LED.zas[g("kasZas")],zak:ZAK[g("kasZak")]||ZAK[0],il:Math.max(1,Math.round(g("kasIl")||1))}; }
 function kasLicz(){ const s=kasWybor(), pel=s.zak[0]==="pelny", zu=zakUdz(s.neon?ROZ_KAS.neon:ROZ_KAS.kas,s.zak[0]); let jeden, lm=0;
   if(s.neon){ const n=[...s.t.replace(/\s/g,"")].length, lg=s.gr[0]==="logo"; lm=Math.round((lg?(s.W+s.H)*2.4:n*s.nh*3.2)*s.nt[2])/100; jeden=(KAS.neonBaza+KAS.neonM*lm)*(1+(pel?s.sw[3]:0)+s.nb[2])*zu.f; }   // długość linii ≈ 3,2 × wysokość na znak
-  else { const m2=(s.typ[0]==="okr"?Math.PI/4:1)*s.W*s.H/1e4; jeden=(KAS.baza+KAS.m2*m2)*s.typ[2]*(1+(pel?s.sw[3]:0)+s.ob[3])*zu.f; }
+  else { const m2=(s.typ[0]==="okr"?Math.PI/4:1)*s.W*s.H/1e4; jeden=(KAS.baza+KAS.m2*m2)*s.typ[2]*(1+(pel?s.sw[3]:0)+s.ob[3])*zu.f; const [fP,fL]=kasPodl(s); jeden*=podlK(jeden,zu,fP,fL); }
   jeden=Math.round((jeden+s.m[2]+(pel?s.z[2]:0))*100)/100; const mn=s.neon?KAS.neonMin:KAS.min;
   const razem=(s.neon&&!lm)?0:Math.max(mn,Math.round(jeden*s.il*100)/100); return {s,lm,jeden,razem,mn,zu,pel}; }
 function kasTerm(s){ return s.neon?terminW(9,16):terminW(10,20); }
