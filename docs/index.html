@@ -526,6 +526,8 @@ body.bezNowych #oferty,body.bezNowych #techMat,body.bezNowych #litery,body.bezNo
 .kasNeon{font:700 44px/1.15 'D3 Pisany','Segoe Script',cursive;text-align:center;word-break:break-word;max-width:100%}
 /* 2026112141: rozbicie ceny dla klienta */
 .rozb{margin-top:8px}.rozb summary{cursor:pointer;font-weight:700}.rozb table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px}.rozb td{padding:5px 6px;border-bottom:1px solid var(--linia)}.rozb td.n{text-align:right;white-space:nowrap}.rozb tr.suma td{font-weight:800;border-top:2px solid #FBB03B;border-bottom:0}.rozb tr.bez td{opacity:.75;font-style:italic}
+/* 2026112141: podgląd 3D */
+.p3d{position:relative;margin-top:8px;border-radius:12px;overflow:hidden;background:radial-gradient(circle at 50% 35%,#3a3f4b,#16181d);touch-action:none}.p3d canvas{display:block;width:100%;height:280px;cursor:grab}.p3d .p3dInfo{position:absolute;right:8px;top:8px;font:600 12px var(--sans,sans-serif);color:#fff;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:8px}.p3d .wizTag{position:absolute;left:8px;bottom:8px}.p3d .p3dHint{position:absolute;right:8px;top:36px;font:11px var(--sans,sans-serif);color:#ddd;opacity:.8}
 </style>
 </head>
 <body>
@@ -1962,8 +1964,46 @@ function cModel(){ if(!CMOD) return; const sk=(+$("#cSk").value||100)/100, inf=M
   const skor=Math.min(V,A*0.11), g=(skor+inf*Math.max(0,V-skor))*ro*1.05, min=6+g*1.75*(mat==="TPU"?2.2:["PA","PACF","PC"].includes(mat)?1.3:1);
   $("#cG").value=Math.round(g); $("#cH").value=(min/60).toFixed(1);
   $("#cPlikMsg").innerHTML=`<b>${esc(CMOD.nazwa)}</b>: ${dim.map(d=>d.toFixed(0)).join(" × ")} mm`+(kl()?"":` · ok. ${Math.round(g)} g · ${(min/60).toFixed(1).replace(".",",")} h`)+(dim.some(d=>d>256)?' · <span style="color:var(--kr)">⚠ za duży na stół – podzielimy na części</span>':""); cLicz(); }
+/* ===== 2026112141: podgląd 3D modelu (WebGL, bez bibliotek z sieci) ===== */
+function pokaz3d(el,T,nazwa){ if(!el) return; el.innerHTML=""; if(!T||T.length<9) return;
+  const box=document.createElement("div"); box.className="p3d"; const cv=document.createElement("canvas"); box.appendChild(cv); el.appendChild(box);
+  const gl=cv.getContext("webgl",{antialias:true})||cv.getContext("experimental-webgl"); if(!gl){ box.innerHTML='<p class="note" style="color:#fff;padding:12px">Podgląd 3D niedostępny na tym urządzeniu.</p>'; return; }
+  const n=T.length/9, P=new Float32Array(T), N=new Float32Array(T.length), mn=[1e9,1e9,1e9], mx=[-1e9,-1e9,-1e9];
+  for(let t=0;t<n;t++){ const b=t*9, ax=P[b+3]-P[b], ay=P[b+4]-P[b+1], az=P[b+5]-P[b+2], bx=P[b+6]-P[b], by=P[b+7]-P[b+1], bz=P[b+8]-P[b+2];
+    let nx=ay*bz-az*by, ny=az*bx-ax*bz, nz=ax*by-ay*bx; const l=Math.hypot(nx,ny,nz)||1; nx/=l; ny/=l; nz/=l;
+    for(let k=0;k<3;k++){ N[b+k*3]=nx; N[b+k*3+1]=ny; N[b+k*3+2]=nz; for(let q=0;q<3;q++){ const v=P[b+k*3+q]; if(v<mn[q]) mn[q]=v; if(v>mx[q]) mx[q]=v; } } }
+  const C=[0,1,2].map(q=>(mn[q]+mx[q])/2), R=Math.max(1e-6,Math.hypot(mx[0]-mn[0],mx[1]-mn[1],mx[2]-mn[2])/2);
+  const sh=(t,s)=>{ const o=gl.createShader(t); gl.shaderSource(o,s); gl.compileShader(o); return o; }, pr=gl.createProgram();
+  gl.attachShader(pr,sh(gl.VERTEX_SHADER,"attribute vec3 p;attribute vec3 nr;uniform mat4 M;uniform vec2 A;varying vec3 vn;void main(){vec4 q=M*vec4(p,1.0);vn=(M*vec4(nr,0.0)).xyz;gl_Position=vec4(q.x*A.x,q.y*A.y,-q.z*0.5,1.0);}"));
+  gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,"precision mediump float;varying vec3 vn;void main(){vec3 n=normalize(vn);float d=abs(dot(n,normalize(vec3(0.35,0.55,1.0))));float s=pow(d,24.0)*0.35;vec3 c=vec3(0.98,0.69,0.23);gl_FragColor=vec4(c*(0.28+0.72*d)+s,1.0);}"));
+  gl.linkProgram(pr); gl.useProgram(pr);
+  const buf=(d,a)=>{ const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,d,gl.STATIC_DRAW); const l=gl.getAttribLocation(pr,a); gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l,3,gl.FLOAT,false,0,0); };
+  buf(P,"p"); buf(N,"nr"); gl.enable(gl.DEPTH_TEST); const uM=gl.getUniformLocation(pr,"M"), uA=gl.getUniformLocation(pr,"A");
+  let yaw=-0.6, pit=-1.05, zoom=1;
+  function rys(){ const w=cv.clientWidth||300, h=cv.clientHeight||280, dpr=Math.min(2,window.devicePixelRatio||1); if(cv.width!==Math.round(w*dpr)){ cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); }
+    gl.viewport(0,0,cv.width,cv.height); gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    const cy=Math.cos(yaw), sy=Math.sin(yaw), cp=Math.cos(pit), sp=Math.sin(pit), s=zoom*0.9/R;
+    // M = S · Rx(pit) · Rz(yaw) · T(-C)   (kolumnowo)
+    const r00=cy, r01=-sy, r02=0, r10=cp*sy, r11=cp*cy, r12=-sp, r20=sp*sy, r21=sp*cy, r22=cp;
+    const tx=-(r00*C[0]+r01*C[1]+r02*C[2]), ty=-(r10*C[0]+r11*C[1]+r12*C[2]), tz=-(r20*C[0]+r21*C[1]+r22*C[2]);
+    gl.uniformMatrix4fv(uM,false,new Float32Array([r00*s,r10*s,r20*s,0, r01*s,r11*s,r21*s,0, r02*s,r12*s,r22*s,0, tx*s,ty*s,tz*s,1]));
+    gl.uniform2f(uA,Math.min(1,h/w),Math.min(1,w/h)); gl.drawArrays(gl.TRIANGLES,0,n*3); }
+  const pt=new Map(); let d0=0;
+  cv.addEventListener("pointerdown",e=>{ cv.setPointerCapture(e.pointerId); pt.set(e.pointerId,[e.clientX,e.clientY]); if(pt.size===2){ const [a,b]=[...pt.values()]; d0=Math.hypot(a[0]-b[0],a[1]-b[1]); } });
+  cv.addEventListener("pointermove",e=>{ if(!pt.has(e.pointerId)) return; const o=pt.get(e.pointerId);
+    if(pt.size===1){ yaw+=(e.clientX-o[0])*0.01; pit=Math.max(-3.1,Math.min(0.2,pit+(e.clientY-o[1])*0.01)); }
+    pt.set(e.pointerId,[e.clientX,e.clientY]); if(pt.size===2){ const [a,b]=[...pt.values()], d=Math.hypot(a[0]-b[0],a[1]-b[1]); if(d0) zoom=Math.max(0.3,Math.min(8,zoom*d/d0)); d0=d; } requestAnimationFrame(rys); });
+  const up=e=>{ pt.delete(e.pointerId); d0=0; }; cv.addEventListener("pointerup",up); cv.addEventListener("pointercancel",up);
+  cv.addEventListener("wheel",e=>{ e.preventDefault(); zoom=Math.max(0.3,Math.min(8,zoom*(e.deltaY<0?1.12:1/1.12))); requestAnimationFrame(rys); },{passive:false});
+  cv.addEventListener("dblclick",()=>{ yaw=-0.6; pit=-1.05; zoom=1; rys(); });
+  const inf=document.createElement("span"); inf.className="p3dInfo"; inf.textContent=`${nazwa?nazwa+" · ":""}${(mx[0]-mn[0]).toFixed(0)} × ${(mx[1]-mn[1]).toFixed(0)} × ${(mx[2]-mn[2]).toFixed(0)} mm`; box.appendChild(inf);
+  const tag=document.createElement("span"); tag.className="wizTag"; tag.textContent="podgląd – kolor poglądowy"; box.appendChild(tag);
+  const hi=document.createElement("span"); hi.className="p3dHint"; hi.textContent="obracaj palcem lub myszą · 2 palce / kółko = zoom"; box.appendChild(hi);
+  rys(); if(window.ResizeObserver) new ResizeObserver(()=>rys()).observe(cv); }
+async function pokaz3dPlik(el,file){ try{ pokaz3d(el,await modelTris(file),file.name); }catch(e){ if(el) el.innerHTML=`<p class="note">Podgląd 3D: ${esc(e.message||String(e))}</p>`; } }
 $("#cPlik").onchange=async e=>{ const f=e.target.files[0]; e.target.value=""; if(!f) return; $("#cPlikMsg").textContent="czytam model…";
-  try{ const T=await modelTris(f); if(T.length<9) throw new Error("brak trójkątów"); CMOD={...trisVolArea(T),nazwa:f.name.replace(/\.(stl|obj|3mf)$/i,"")}; cModel(); }
+  try{ const T=await modelTris(f); if(T.length<9) throw new Error("brak trójkątów"); CMOD={...trisVolArea(T),nazwa:f.name.replace(/\.(stl|obj|3mf)$/i,"")}; cModel();
+    let pv=$id("cPodglad"); if(!pv){ pv=document.createElement("div"); pv.id="cPodglad"; $("#cPlik").closest(".row").after(pv); } pokaz3d(pv,T,f.name); }
   catch(err){ $("#cPlikMsg").textContent="Nie udało się wczytać: "+(err.message||err); } };
 ["#cG","#cH","#cIl","#cKol","#cEks","#cSkan","#cObr","#cMod"].forEach(id=>{ $(id).addEventListener("input",cLicz); $(id).addEventListener("change",cLicz); });
 ["#cSk","#cInf"].forEach(id=>$(id).addEventListener("change",()=>CMOD?cModel():cLicz()));
