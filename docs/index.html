@@ -545,6 +545,11 @@ label{font-weight:600}
 .note{font-size:14px}
 /* telefon w pionie: pola z kafelkami na całą szerokość, tytuły kafli oferty bez łamania w pół słowa */
 @media (max-width:560px){.ofPanel .grid{grid-template-columns:1fr!important}.ofPanel .grid>*{grid-column:1/-1}.oferta b{font-size:17px!important;overflow-wrap:normal;word-break:normal;hyphens:manual}.oferta .go{font-size:14px}.kafWyb{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+/* 2026112141: logo klienta, podział na części */
+.czInfo{margin-top:8px;padding:10px 12px;border-radius:10px;border:1px dashed var(--linia);background:var(--karta2);font-size:14.5px;line-height:1.4}
+.czInfo b{color:var(--akc)}
+#kasObj img{max-width:86%;max-height:86%;object-fit:contain;display:block}
+.kasNeon img{max-width:100%;max-height:150px;filter:brightness(0) invert(1) drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px var(--neonK,#ff5fb0)) drop-shadow(0 0 22px var(--neonK,#ff5fb0))}
 </style>
 </head>
 <body>
@@ -630,7 +635,7 @@ label{font-weight:600}
    <label>Ilość kompletów<input id="ledIl" type="number" min="1" step="1" value="1"></label>
    <label>Tło podglądu<select id="ledTlo"><option value="c">ciemna ściana</option><option value="j">jasna ściana</option></select></label>
   </div>
-  <div class="ledCena" id="ledCena"></div><div id="ledRoz"></div>
+  <div class="ledCena" id="ledCena"></div><div class="czInfo" id="ledCz"></div><div id="ledRoz"></div>
   <div id="ledTerm"></div>
   <div class="row" style="margin-top:10px"><button class="b" id="ledZamow" type="button">✉ Zamów / zapytaj</button><button class="b2" id="ledKopiuj" type="button">📋 Kopiuj wycenę</button></div>
   <p class="note krotko">ℹ️ Podgląd to wizualizacja – gotowy produkt może się różnić. Zestaw do montażu, bez zasilacza 230 V.</p>
@@ -673,6 +678,9 @@ label{font-weight:600}
     <label id="kasLW">Szerokość (cm, 20–120)<input id="kasW" type="number" min="20" max="120" step="5" value="60"></label>
     <label id="kasLH">Wysokość (cm, 20–80)<input id="kasH" type="number" min="20" max="80" step="5" value="40"></label>
     <label id="kasLGr">Na licu<select id="kasGr"></select></label>
+    <label style="grid-column:1/-1" id="kasLLogo">Twoje logo – plik (PNG, JPG, SVG albo PDF)<input id="kasLogo" type="file" accept="image/*,.svg,.pdf"><span class="note" id="kasLogoInfo">Logo zobaczysz od razu na podglądzie. Plik wyślemy razem z zamówieniem.</span></label>
+    <label id="kasLNTor">Linia neonu<select id="kasNTor"></select></label>
+    <label id="kasLNTab">Tablica pod neonem<select id="kasNTab"></select></label>
     <label style="grid-column:1/-1" id="kasLT">Napis<input id="kasTekst" maxlength="30" value="Otwarte" placeholder="np. Otwarte, nazwa firmy, imię"></label>
     <label id="kasLNh">Wysokość napisu (cm)<input id="kasNh" type="number" min="10" max="60" step="5" value="20"></label>
     <label>Kolor światła<select id="kasSw"></select></label>
@@ -682,7 +690,7 @@ label{font-weight:600}
     <label>Ilość<input id="kasIl" type="number" min="1" step="1" value="1"></label>
     <label>Tło podglądu<select id="kasTlo"><option value="c">ciemna ściana</option><option value="j">jasna ściana</option></select></label>
    </div>
-   <div class="ledCena" id="kasCena"></div><div id="kasRoz"></div>
+   <div class="ledCena" id="kasCena"></div><div class="czInfo" id="kasCz"></div><div id="kasRoz"></div>
    <div id="kasTerm"></div>
    <div class="row" style="margin-top:10px"><button class="b" id="kasZamow" type="button">✉ Zamów / zapytaj</button><button class="b2" id="kasKopiuj" type="button">📋 Kopiuj wycenę</button></div>
    <p class="note owner-only" id="kasWl" style="margin:8px 0 0"></p>
@@ -877,7 +885,7 @@ function persist(what, extra){ if(STRONA) return; if(what==="filaments"||what===
 }
 async function wczytajOferte(){ try{ const r=await fetch("https://raw.githubusercontent.com/strzygaTV/drukuj3d-program/main/oferta.json?t="+Date.now(),{cache:"no-store"}); if(!r.ok) return;
     const o=await r.json(); if(Array.isArray(o.filamenty)) S.filaments=o.filamenty.map(f=>({id:f.id,nazwa:f.nazwa,typ:f.typ,kolor:f.kolor,wyk:f.wyk||"standard",stan:true,zr:"ręcznie",szpul:1,cena:0,waga:1000}));
-    if(typeof o.u==="string"){ try{ S.settings.usl={...uslDekod(o.u),v:3}; }catch(e){} } if(o.kontakt) S.settings.kontakt=o.kontakt; }catch(e){} }
+    if(typeof o.u==="string"){ try{ S.settings.usl={...uslDekod(o.u),v:3}; }catch(e){} } if(o.kontakt) S.settings.kontakt=o.kontakt; if(o.odb) window.ODB=o.odb; }catch(e){} }
 const GH_PUB="https://github.com/strzygaTV/drukuj3d-program/releases/download/";
 function liczWejscie(){ try{ const d=new Date().toISOString().slice(0,10); if(localStorage.getItem("d3_wej")===d) return; localStorage.setItem("d3_wej",d); fetch(GH_PUB+"licznik/wejscie.txt",{mode:"no-cors",cache:"no-store"}).catch(()=>{}); }catch(e){} }
 async function liczniki(reczne){ if(STRONA||!$("#liczKpi")) return; const L=S.settings.licz=S.settings.licz||{a:{}};
@@ -1607,6 +1615,33 @@ function terminyKarta(){ const el=document.getElementById("terminyTab"); if(!el)
     ["Druk wielokolorowy / wykończenie (szlif, malowanie, lakier)","+1–3 dni"],...(NOWE_OFERTY?[["Materiały techniczne (sprowadzane pod zlecenie)","+3–7 dni"]]:[]),["Modelowanie, projekt na wymiar","+2–10 dni"],["Skanowanie 3D","+3–7 dni"],
     ...(NOWE_OFERTY?[["Litery podświetlane z konfiguratora (zestaw do montażu)",t(9,15)],["Kasetony, neony, logo na zamówienie",t(10,25)],["Lampy i abażury 3D (zestaw do montażu)",t(6,11)]]:[]),
     ["Priorytet w kolejce (za dopłatą)","krócej, min. 3 dni"],["Wysyłka (przewoźnik)","+1–3 dni"]].map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join(""); }
+/* ===== 2026112141: moduł Światło – logo klienta, neon jak w Bryłce, podział na części, projekt dla Bryłki ===== */
+const STOL_CZ=250;   // mm – największy kawałek z jednego wydruku (stół K2 260 mm, zapas na zamek)
+let KAS_LOGO=null, CPLIK=null;
+function czIle(Wmm,Hmm){ return Math.ceil(Wmm/STOL_CZ)*Math.ceil(Hmm/STOL_CZ); }
+const czSl=(n,a,b,c)=>n===1?a:(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?b:c;
+function czLed(s,n){ const H=s.w[0]*10, W=0.65*H, cz=czIle(W,H), lico=s.ty[0]!=="halo"&&(!s.zak||s.zak[0]!=="p");
+  return {cz,lico,mod:cz*n*s.il, txt:cz===1?`Każda litera w jednym kawałku – puszka${lico?" i lico":""} bez łączeń.`
+    :`Litery ${s.w[1]} są większe niż stół drukarki (25 cm), więc <b>każdą puszkę${lico?" i każde lico":""} drukujemy z ${cz} ${czSl(cz,"części","części","części")}</b> – razem ${cz*n*s.il} ${czSl(cz*n*s.il,"moduł","moduły","modułów")} puszek${lico?` i ${cz*n*s.il} ${czSl(cz*n*s.il,"moduł","moduły","modułów")} lic`:""}. Moduły łączą się na zamek i klej; pod światło łączenie na licu może być delikatnie widoczne.`}; }
+function czKas(s){ const lg=s.gr[0]==="logo", Wmm=s.neon?(lg?s.W*10:Math.max(1,[...s.t.replace(/\s/g,"")].length)*s.nh*6):s.W*10, Hmm=s.neon?(lg?s.H*10:s.nh*12):s.H*10, cz=czIle(Wmm,Hmm);
+  const co=s.neon?(s.nb[0]==="none"?"napis neonu":"tablicę pod neonem"):"obudowę i lico", ile=cz*s.il;
+  return {cz,Wmm,Hmm, txt:cz===1?`Mieści się w jednym wydruku – ${co} bez łączeń.`
+    :`Wymiar ok. ${Math.round(Wmm/10)} × ${Math.round(Hmm/10)} cm jest większy niż stół drukarki (25 cm), więc <b>${co} drukujemy z ${cz} ${czSl(cz,"części","części","części")}</b>${s.il>1?` (razem ${ile} na ${s.il} szt.)`:""}. Części łączą się na zamek i klej; pod światło łączenie może być delikatnie widoczne.`}; }
+const czBez=t=>t.replace(/<[^>]+>/g,"");
+/* projekt w formacie dla Bryłki (moduł Światło) – rozmiary w mm, nazwy pól jak w Bryłce */
+function projektSwiatlo(rodz){ try{
+  if(rodz==="litery"){ const {s,n,razem}=ledLicz(); if(!n) return null; const c=czLed(s,n);
+    return {kind:"letters",text:s.t,font:s.k[1],kroj:s.k[0],size:s.w[0]*10,H:ledGleb(s.w[0]),style:s.ty[0]==="halo"?"halo":s.ty[0]==="oba"?"face+halo":"face",light:s.sw[0],col:s.ob[2],kolor:s.ob[1],mount:s.m[0],cable:s.z[0],zakres:s.zak?s.zak[0]:"pelny",ilosc:s.il,
+      podzial:{maxPart:STOL_CZ,czesci_na_litere:c.cz,liter:n,modulow_puszek:c.mod,modulow_lic:c.lico?c.mod:0},cena:razem,kod:ledKod(s)}; }
+  if(rodz==="kaseton"){ const {s,lm,razem}=kasLicz(); if(!razem) return null; const c=czKas(s), lg=s.gr[0]==="logo";
+    if(s.neon) return {kind:"neon",zrodlo:lg?"logo":"napis",text:lg?"":s.t,size:lg?Math.round(c.Hmm):s.nh*10,W:Math.round(c.Wmm),path:s.nt[0],board:s.nb[0],wn:8,hn:12,linia_m:lm,light:s.sw[0],bcol:s.ob[2],kolor:s.ob[1],mount:s.m[0],cable:s.z[0],zakres:s.zak?s.zak[0]:"pelny",ilosc:s.il,logo:lg&&KAS_LOGO?KAS_LOGO.name:"",podzial:{maxPart:STOL_CZ,czesci:c.cz,modulow:c.cz*s.il},cena:razem};
+    return {kind:"box",shape:s.typ[0]==="okr"?"circle":"rect",dwustronny:s.typ[0]==="kas2",W:s.W*10,Hh:s.H*10,fmode:lg?"logo":"text",ftext:lg?"":s.t,logo:lg&&KAS_LOGO?KAS_LOGO.name:"",light:s.sw[0],col:s.ob[2],kolor:s.ob[1],mount:s.m[0],cable:s.z[0],zakres:s.zak?s.zak[0]:"pelny",ilosc:s.il,podzial:{maxPart:STOL_CZ,czesci:c.cz,modulow_obudowy:c.cz*s.il,modulow_lica:(s.zak&&s.zak[0]==="p")?0:c.cz*s.il},cena:razem}; }
+  }catch(e){} return null; }
+function kasLogoUstaw(f){ const inf=$id("kasLogoInfo"); if(!f){ KAS_LOGO=null; return; }
+  if(f.size>15e6){ if(inf) inf.textContent="Plik jest za duży (max 15 MB) – wyślij go mailem."; return; }
+  const r=new FileReader(); r.onload=()=>{ KAS_LOGO={name:f.name,type:f.type||"",url:String(r.result),blob:f}; if(inf) inf.innerHTML=`✅ <b>${esc(f.name)}</b> – ${f.type==="application/pdf"||/\.pdf$/i.test(f.name)?"PDF dołączymy do zamówienia (podgląd pokazuje miejsce na logo)":"widać je na podglądzie"}. Plik wyślemy razem z zamówieniem.`; kasRender(); };
+  r.readAsDataURL(f); }
+function kasLogoObraz(){ return KAS_LOGO&&/^image\//.test(KAS_LOGO.type)?KAS_LOGO.url:null; }
 /* ===== 2026112141: zakres zamówienia – komplet z LED albo wersje dla agencji reklamowych (bez LED) ===== */
 const ZAK=[["pelny","Komplet z oświetleniem LED 12 V – gotowy do podłączenia"],["pl","Dla agencji: puszki + lica, bez LED i elektryki"],["p","Dla agencji: same puszki (obudowy), bez lic i LED"]];
 function zakUdz(lista,z){ const L=z==="p"?lista.slice(0,1):z==="pl"?lista.filter(([t])=>!/LED|świetln/i.test(t)):lista, f=L.reduce((a,[,u])=>a+u,0);
@@ -1671,7 +1706,7 @@ function ledPodglad(){ const {s}=ledLicz(), el=$("#ledNapis"), c=s.sw[2]==="rgb"
   el.style.fontSize=Math.max(22,Math.min(84,(w-30)/(Math.max(len,4)*s.k[6])))+"px";
   $("#ledScena").classList.toggle("jasna",$("#ledTlo").value==="j"); }
 function ledTekst(){ const {s,n,zaLit,jeden,razem,zu,pel}=ledLicz(); if(!n) return "";
-  return [`Litery podświetlane LED – DRUKUJ 3D`,`Napis: „${s.t}” (${n} znaków bez spacji)`,`Wysokość liter: ${s.w[1]}`,`Głębokość liter (puszki): ${ledGleb(s.w[0])} mm`,`Krój: ${s.k[1]}`,`Podświetlenie: ${s.ty[1]}`,`Zakres: ${s.zak[1]}`,pel?`Kolor światła: ${s.sw[1]}`:"",`Kolor liter: ${s.ob[1]}`,`Mocowanie: ${s.m[1]}`,pel?`Przewód: ${s.z[1]}`:"",zakOpis(s.zak[0],"litery"),`Ilość kompletów: ${s.il}`,`Cena za literę: ${zl(zaLit)}`,
+  return [`Litery podświetlane LED – DRUKUJ 3D`,`Napis: „${s.t}” (${n} znaków bez spacji)`,`Wysokość liter: ${s.w[1]}`,`Głębokość liter (puszki): ${ledGleb(s.w[0])} mm`,`Podział na części: ${czBez(czLed(s,n).txt)}`,`Krój: ${s.k[1]}`,`Podświetlenie: ${s.ty[1]}`,`Zakres: ${s.zak[1]}`,pel?`Kolor światła: ${s.sw[1]}`:"",`Kolor liter: ${s.ob[1]}`,`Mocowanie: ${s.m[1]}`,pel?`Przewód: ${s.z[1]}`:"",zakOpis(s.zak[0],"litery"),`Ilość kompletów: ${s.il}`,`Cena za literę: ${zl(zaLit)}`,
     ...rozDziel(Math.round(zaLit*n*100)/100,zu.udz).map(([t,v])=>"  • "+t+": "+zl(v)),`  • ${s.m[1]}: ${s.m[2]?zl(s.m[2]):"w cenie"}`,
     ...(pel?[`  • ${s.z[1]}: ${s.z[2]?zl(s.z[2]):"w cenie"}`,`  • Zasilacz 230 V → 12 V: nie ma w zestawie (dokupujesz osobno)`]:zakBez(s.zak[0],"Lica").map(([t])=>"  • "+t)),
     `Cena za komplet: ${zl(jeden)}`,razem>jeden*s.il+0.004?`Dopłata do minimalnego zamówienia: ${zl(Math.round((razem-jeden*s.il)*100)/100)}`:"",`CENA KOŃCOWA: ${zl(razem)}`,`Termin realizacji: ${terminStr(terminLed(n,s))} od akceptacji projektu i wpłaty (orientacyjnie, wiąże po potwierdzeniu)`,`Kod projektu: ${ledKod(s)}`].filter(Boolean).join("\n"); }
@@ -1682,7 +1717,7 @@ function ledZKodu(k){ const a=String(k||"").trim().split("|"); if(a[0]!=="LITERY
   ust("#ledWys",ix(LED.wys,a[2])); ust("#ledKroj",ix(LED.kroj,a[3])); ust("#ledTyp",ix(LED.typ,a[4])); ust("#ledSw",ix(LED.sw,a[5])); ust("#ledOb",ix(LED.ob,a[6])); ust("#ledMont",ix(LED.mont,a[7])); ust("#ledZas",ix(LED.zas,a[8])); if(a[9]) ust("#ledIl",a[9]); ust("#ledZak",a[10]?ix(ZAK,a[10]):0);
   ledRender(); return true; }
 function ledRender(){ const {s,n,zaLit,razem}=ledLicz(); ledPodglad();
-  $("#ledCena").innerHTML=n?`<span class="note">Cena końcowa</span><b>${zl(razem)}</b><span class="note">${n} ${n===1?"litera":(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?"litery":"liter")} × ${zl(zaLit)} + ${s.zak[0]==="pelny"?"mocowanie i przewód":"mocowanie · "+(s.zak[0]==="p"?"same puszki":"puszki + lica")+", bez LED (dla agencji)"} · <span class="ledGleb">↔ głębokość liter: ${ledGleb(s.w[0])} mm</span>${s.il>1?` · ${s.il} komplety`:""}${razem===LED.min&&ledLicz().jeden*s.il<LED.min?` · minimalne zamówienie ${zl(LED.min)}`:""}</span>`:`<span class="note">Wpisz napis, żeby zobaczyć cenę.</span>`; try{ zakPola("led",s.zak[0]==="pelny"); ledRozbicie(); }catch(e){} if($("#ledTerm")) $("#ledTerm").innerHTML=n?terminHtml(terminLed(n,s),"zestaw do samodzielnego montażu"):""; }
+  $("#ledCena").innerHTML=n?`<span class="note">Cena końcowa</span><b>${zl(razem)}</b><span class="note">${n} ${n===1?"litera":(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?"litery":"liter")} × ${zl(zaLit)} + ${s.zak[0]==="pelny"?"mocowanie i przewód":"mocowanie · "+(s.zak[0]==="p"?"same puszki":"puszki + lica")+", bez LED (dla agencji)"} · <span class="ledGleb">↔ głębokość liter: ${ledGleb(s.w[0])} mm</span>${s.il>1?` · ${s.il} komplety`:""}${razem===LED.min&&ledLicz().jeden*s.il<LED.min?` · minimalne zamówienie ${zl(LED.min)}`:""}</span>`:`<span class="note">Wpisz napis, żeby zobaczyć cenę.</span>`; try{ zakPola("led",s.zak[0]==="pelny"); ledRozbicie(); const c=$id("ledCz"); if(c) c.innerHTML=n?"🧩 "+czLed(s,n).txt:""; }catch(e){} if($("#ledTerm")) $("#ledTerm").innerHTML=n?terminHtml(terminLed(n,s),"zestaw do samodzielnego montażu"):""; }
 function ledInit(){ if(!$("#litery")) return;
   ledOpt("#ledWys",LED.wys,a=>a[1]+" · głęb. "+ledGleb(a[0])+" mm"); $("#ledWys").value="2";
   ledOpt("#ledTyp",LED.typ,a=>a[1]); ledOpt("#ledKroj",LED.kroj,a=>a[1]+(a[2]?" (+"+Math.round(a[2]*100)+"%)":"")); ledOpt("#ledSw",LED.sw,a=>a[1]); ledOpt("#ledOb",LED.ob,a=>a[1]); ledOpt("#ledMont",LED.mont,a=>a[1]); ledOpt("#ledZas",LED.zas,a=>a[1]); ledOpt("#ledZak",ZAK,a=>a[1]);
@@ -2018,7 +2053,7 @@ function pokaz3d(el,T,nazwa){ if(!el) return; el.innerHTML=""; if(!T||T.length<9
   const hi=document.createElement("span"); hi.className="p3dHint"; hi.textContent="obracaj palcem lub myszą · 2 palce / kółko = zoom"; box.appendChild(hi);
   rys(); if(window.ResizeObserver) new ResizeObserver(()=>rys()).observe(cv); }
 async function pokaz3dPlik(el,file){ try{ pokaz3d(el,await modelTris(file),file.name); }catch(e){ if(el) el.innerHTML=`<p class="note">Podgląd 3D: ${esc(e.message||String(e))}</p>`; } }
-$("#cPlik").onchange=async e=>{ const f=e.target.files[0]; e.target.value=""; if(!f) return; $("#cPlikMsg").textContent="czytam model…";
+$("#cPlik").onchange=async e=>{ const f=e.target.files[0]; e.target.value=""; if(!f) return; CPLIK=f; $("#cPlikMsg").textContent="czytam model…";
   try{ const T=await modelTris(f); if(T.length<9) throw new Error("brak trójkątów"); CMOD={...trisVolArea(T),nazwa:f.name.replace(/\.(stl|obj|3mf)$/i,"")}; cModel();
     let pv=$id("cPodglad"); if(!pv){ pv=document.createElement("div"); pv.id="cPodglad"; $("#cPlik").closest(".row").after(pv); } pokaz3d(pv,T,f.name); }
   catch(err){ $("#cPlikMsg").textContent="Nie udało się wczytać: "+(err.message||err); } };
@@ -15109,6 +15144,8 @@ const KAS={typ:[["kas1","Kaseton jednostronny",1],["kas2","Kaseton dwustronny (n
  baza:129, m2:800, min:199, neonBaza:99, neonM:299, neonMin:249,
  gr:[["logo","Twoje logo lub grafika (plik dołączysz do zamówienia)"],["napis","Sam napis"]],
  mont:[["sciana","Na ścianę – uchwyty i szablon wiercenia (montujesz sam)",0],["lina","Do podwieszenia – linki i uchwyty",29],["wys","Wysięgnik ścienny (do kasetonu dwustronnego)",79]]};
+KAS.ntor=[["mid","Jedna linia środkiem liter (klasyczny neon)",1],["outline","Po obrysie liter (kontur)",1.8]];
+KAS.ntab=[["outline","Po obrysie napisu",0],["rect","Prostokątna",0.15],["none","Bez tablicy – litery osobno na ścianę",-0.1]];
 const OF={ofDruk:"cWyc",ofSkan:"skan3d",ofLed:"litery",ofKas:"kaseton",ofLmp:"lampy"}; let ofOtw=null; const ofMiejsce={};
 const $id=i=>document.getElementById(i);
 function ofZamknij(){ if(!ofOtw) return; const c=$id(OF[ofOtw]), b=$id(ofOtw); if(c&&ofMiejsce[OF[ofOtw]]){ ofMiejsce[OF[ofOtw]].after(c); c.classList.remove("ofW"); }
@@ -15146,38 +15183,42 @@ function skInit(){ if(!$id("skan3d")) return; const c=usl(); $id("skW").innerHTM
 /* ---- kasetony i neony ---- */
 function kasWybor(){ const g=i=>+(($id(i)||{}).value)||0, v=i=>(($id(i)||{}).value)||"", typ=KAS.typ[g("kasTyp")], neon=typ[0]==="neon";
   const W=Math.max(20,Math.min(120,g("kasW")||60)), H=typ[0]==="okr"?W:Math.max(20,Math.min(80,g("kasH")||40));
-  return {typ,neon,W,H,t:v("kasTekst").trim(),nh:Math.max(10,Math.min(60,g("kasNh")||20)),gr:KAS.gr[g("kasGr")],sw:LED.sw[g("kasSw")],ob:LED.ob[g("kasOb")],m:KAS.mont[g("kasMont")],z:LED.zas[g("kasZas")],zak:ZAK[g("kasZak")]||ZAK[0],il:Math.max(1,Math.round(g("kasIl")||1))}; }
+  return {typ,neon,W,H,t:v("kasTekst").trim(),nh:Math.max(10,Math.min(60,g("kasNh")||20)),gr:KAS.gr[g("kasGr")],nt:KAS.ntor[g("kasNTor")]||KAS.ntor[0],nb:KAS.ntab[g("kasNTab")]||KAS.ntab[0],sw:LED.sw[g("kasSw")],ob:LED.ob[g("kasOb")],m:KAS.mont[g("kasMont")],z:LED.zas[g("kasZas")],zak:ZAK[g("kasZak")]||ZAK[0],il:Math.max(1,Math.round(g("kasIl")||1))}; }
 function kasLicz(){ const s=kasWybor(), pel=s.zak[0]==="pelny", zu=zakUdz(s.neon?ROZ_KAS.neon:ROZ_KAS.kas,s.zak[0]); let jeden, lm=0;
-  if(s.neon){ const n=[...s.t.replace(/\s/g,"")].length; lm=Math.round(n*s.nh*3.2)/100; jeden=(KAS.neonBaza+KAS.neonM*lm)*(1+(pel?s.sw[3]:0))*zu.f; }   // długość linii ≈ 3,2 × wysokość na znak
+  if(s.neon){ const n=[...s.t.replace(/\s/g,"")].length, lg=s.gr[0]==="logo"; lm=Math.round((lg?(s.W+s.H)*2.4:n*s.nh*3.2)*s.nt[2])/100; jeden=(KAS.neonBaza+KAS.neonM*lm)*(1+(pel?s.sw[3]:0)+s.nb[2])*zu.f; }   // długość linii ≈ 3,2 × wysokość na znak
   else { const m2=(s.typ[0]==="okr"?Math.PI/4:1)*s.W*s.H/1e4; jeden=(KAS.baza+KAS.m2*m2)*s.typ[2]*(1+(pel?s.sw[3]:0)+s.ob[3])*zu.f; }
   jeden=Math.round((jeden+s.m[2]+(pel?s.z[2]:0))*100)/100; const mn=s.neon?KAS.neonMin:KAS.min;
   const razem=(s.neon&&!lm)?0:Math.max(mn,Math.round(jeden*s.il*100)/100); return {s,lm,jeden,razem,mn,zu,pel}; }
 function kasTerm(s){ return s.neon?terminW(9,16):terminW(10,20); }
 function kasPodglad(){ const {s}=kasLicz(), sc=$id("kasScena"), el=$id("kasObj"); if(!el||!sc) return;
   const kol=s.sw[2]==="rgb"?"#ff5fb0":s.sw[2], wMax=Math.max(160,(sc.clientWidth||320)-50), hMax=140;
-  if(s.neon){ el.className="kasNeon"; el.style.cssText=""; el.textContent=s.t||"Twój neon"; el.style.color="#fffdf7";
+  const lgo=s.gr[0]==="logo"?kasLogoObraz():null;
+  if(s.neon&&lgo){ el.className="kasNeon"; el.style.cssText=`--neonK:${kol}`; el.innerHTML=`<img alt="Twoje logo" src="${lgo}">`; }
+  else if(s.neon){ el.className="kasNeon"; el.style.cssText=""; el.textContent=s.gr[0]==="logo"?"TWOJE LOGO":(s.t||"Twój neon"); el.style.color="#fffdf7";
     el.style.textShadow=s.sw[2]==="rgb"?"0 0 3px #fff,0 0 10px #ff5fb0,0 0 22px #c04dff,0 0 40px #4d8dff":`0 0 2px #fff,0 0 8px ${kol},0 0 18px ${kol},0 0 36px ${kol},0 0 60px ${kol}`;
     const len=[...(s.t||"Twój neon")].length; el.style.fontSize=Math.max(22,Math.min(72,wMax/(Math.max(len,4)*.48)))+"px"; }
   else { const k=Math.min(wMax/s.W,hMax/s.H), w=Math.round(s.W*k), h=Math.round(s.H*k);
     el.className="kasBox"+(s.typ[0]==="okr"?" okr":""); el.style.cssText=`width:${w}px;height:${h}px;border-color:${s.ob[2]};box-shadow:0 0 16px ${kol},0 0 44px ${kol},inset 0 0 26px ${kol};background:radial-gradient(circle,#fffef8 30%,${kol==="rgb"?"#ffd":kol} 140%)`;
-    el.textContent=s.gr[0]==="logo"?"TWOJE LOGO":(s.t||"TWÓJ NAPIS"); el.style.fontSize=Math.max(11,Math.min(42,Math.round(Math.min(h*.3,w/Math.max(6,el.textContent.length)*1.5))))+"px"; }
+    if(lgo){ el.innerHTML=`<img alt="Twoje logo" src="${lgo}">`; } else el.textContent=s.gr[0]==="logo"?"TWOJE LOGO":(s.t||"TWÓJ NAPIS"); el.style.fontSize=Math.max(11,Math.min(42,Math.round(Math.min(h*.3,w/Math.max(6,el.textContent.length)*1.5))))+"px"; }
   sc.classList.toggle("jasna",(($id("kasTlo")||{}).value)==="j"); }
 function kasRender(){ if(!$id("kaseton")) return; const {s,lm,jeden,razem,mn}=kasLicz(); kasPodglad();
   const pok=(i,on)=>{ const e=$id(i); if(e) e.classList.toggle("hidden",!on); };
-  pok("kasLW",!s.neon); pok("kasLH",!s.neon&&s.typ[0]!=="okr"); pok("kasLGr",!s.neon); pok("kasLNh",s.neon); pok("kasLT",s.neon||s.gr[0]==="napis");
+  const lgN=s.neon&&s.gr[0]==="logo"; pok("kasLW",!s.neon||lgN); pok("kasLH",(!s.neon&&s.typ[0]!=="okr")||lgN); pok("kasLGr",true); pok("kasLNh",s.neon&&!lgN); pok("kasLT",s.gr[0]==="napis"); pok("kasLLogo",s.gr[0]==="logo"); pok("kasLNTor",s.neon); pok("kasLNTab",s.neon);
+  $id("kasLGr").firstChild.textContent=s.neon?"Neon z":"Na licu"; try{ const c=czKas(s); $id("kasCz").innerHTML="🧩 "+c.txt; }catch(e){}
   $id("kasLW").firstChild.textContent=s.typ[0]==="okr"?"Średnica (cm, 20–120)":"Szerokość (cm, 20–120)";
-  $id("kasCena").innerHTML=razem?`<span class="note">Cena końcowa</span><b>${zl(razem)}</b><span class="note">${s.neon?`linia świetlna ok. ${lm.toLocaleString("pl-PL")} m, napis ok. ${s.nh} cm`:(s.typ[0]==="okr"?`Ø ${s.W} cm`:`${s.W} × ${s.H} cm`)}${s.il>1?` · ${s.il} szt. × ${zl(jeden)}`:""}${razem===mn&&jeden*s.il<mn?` · minimalne zamówienie ${zl(mn)}`:""} · ${s.zak[0]==="pelny"?"zestaw do montażu, bez zasilacza 230 V":(s.zak[0]==="p"?"same puszki":"puszka + lico")+", bez LED (dla agencji)"}</span>`:`<span class="note">Wpisz napis, żeby zobaczyć cenę.</span>`;
+  $id("kasCena").innerHTML=razem?`<span class="note">Cena końcowa</span><b>${zl(razem)}</b><span class="note">${s.neon?`linia świetlna ok. ${lm.toLocaleString("pl-PL")} m, ${s.gr[0]==="logo"?`logo ok. ${s.W} × ${s.H} cm`:`napis ok. ${s.nh} cm`}`:(s.typ[0]==="okr"?`Ø ${s.W} cm`:`${s.W} × ${s.H} cm`)}${s.il>1?` · ${s.il} szt. × ${zl(jeden)}`:""}${razem===mn&&jeden*s.il<mn?` · minimalne zamówienie ${zl(mn)}`:""} · ${s.zak[0]==="pelny"?"zestaw do montażu, bez zasilacza 230 V":(s.zak[0]==="p"?"same puszki":"puszka + lico")+", bez LED (dla agencji)"}</span>`:`<span class="note">Wpisz napis, żeby zobaczyć cenę.</span>`;
   try{ zakPola("kas",s.zak[0]==="pelny"); kasRozbicie(); }catch(e){} $id("kasTerm").innerHTML=razem?terminHtml(kasTerm(s),"zestaw do samodzielnego montażu"):"";
   const o=$id("kasWl"); if(o&&typeof zewModel==="function"&&typeof calHm==="function"){ try{ const Z=zewZal(), m=zewModel(s.neon?{rodz:"neo",w:Math.max(20,lm*50),kh:s.nh+10,lm:lm||0.5,tlo:"b",il:s.il}:{rodz:"kas",w:s.W,kh:s.H,str:s.typ[0]==="kas2"?2:1,il:s.il},Z), ds=calDruk(m.hD,m.g2);
     o.innerHTML=`Tylko Ty: druk szacunkowo <b>${Math.round(m.g2)} g</b>, <b>${calHm(m.hD)}</b>, ${Math.round(m.cz)} ${calSzt(Math.round(m.cz),"część","części","części")}; LED ok. ${zl(m.led)}. Sam druk (jak w oknie Wycena) ok. ${zl(ds)}.${ds>=razem?" ⚠ Według szacunku sam druk kosztuje tyle co cena dla klienta – sprawdź w slicerze i ewentualnie podnieś cenę.":""}${m.uw.length?" ⚠ "+esc(m.uw.join("; ")):""}`; }catch(e){ o.innerHTML=""; } } }
 function kasTekst(){ const {s,lm,jeden,razem,zu,pel}=kasLicz(); if(!razem) return "";
-  return [`${s.neon?"Neon à la neon":"Kaseton świetlny"} – DRUKUJ 3D`,`Rodzaj: ${s.typ[1]}`,`Zakres: ${s.zak[1]}`,s.neon?`Napis: „${s.t}”, wysokość ok. ${s.nh} cm, linia świetlna ok. ${lm.toLocaleString("pl-PL")} m`:`Wymiar: ${s.typ[0]==="okr"?"Ø "+s.W:s.W+" × "+s.H} cm`,
-    s.neon?"":`Na licu: ${s.gr[1]}${s.gr[0]==="napis"&&s.t?` – „${s.t}”`:""}`,pel?`Kolor światła: ${s.sw[1]}`:"",`Kolor obudowy: ${s.ob[1]}`,`Mocowanie: ${s.m[1]}`,pel?`Przewód: ${s.z[1]}`:"",
+  return [`${s.neon?"Neon à la neon":"Kaseton świetlny"} – DRUKUJ 3D`,`Rodzaj: ${s.typ[1]}`,`Zakres: ${s.zak[1]}`,s.neon?(s.gr[0]==="logo"?`Neon z logo: ok. ${s.W} × ${s.H} cm, linia świetlna ok. ${lm.toLocaleString("pl-PL")} m`:`Napis: „${s.t}”, wysokość ok. ${s.nh} cm, linia świetlna ok. ${lm.toLocaleString("pl-PL")} m`):`Wymiar: ${s.typ[0]==="okr"?"Ø "+s.W:s.W+" × "+s.H} cm`,
+    s.neon?`Linia neonu: ${s.nt[1]} · tablica: ${s.nb[1]}`:`Na licu: ${s.gr[1]}${s.gr[0]==="napis"&&s.t?` – „${s.t}”`:""}`,s.gr[0]==="logo"?`Plik logo: ${KAS_LOGO?KAS_LOGO.name+" (wysłany z projektem – dołącz go też do tego e-maila)":"dołączę do e-maila"}`:"",`Podział na części: ${czBez(czKas(s).txt)}`,pel?`Kolor światła: ${s.sw[1]}`:"",`Kolor obudowy: ${s.ob[1]}`,`Mocowanie: ${s.m[1]}`,pel?`Przewód: ${s.z[1]}`:"",
     zakOpis(s.zak[0],s.neon?"neon":"kaseton"),...rozDziel(Math.round((jeden-s.m[2]-(pel?s.z[2]:0))*100)/100,zu.udz).map(([t,v])=>`  • ${t}: ${zl(v)}`),`  • ${s.m[1]}: ${s.m[2]?zl(s.m[2]):"w cenie"}`,
     ...(pel?[`  • ${s.z[1]}: ${s.z[2]?zl(s.z[2]):"w cenie"}`,`  • Zasilacz 230 V → 12 V: nie ma w zestawie (dokupujesz osobno)`]:zakBez(s.zak[0],s.neon?"":"Lico").map(([t])=>"  • "+t)),`Ilość: ${s.il}`,razem>jeden*s.il+0.004?`Dopłata do minimalnego zamówienia: ${zl(Math.round((razem-jeden*s.il)*100)/100)}`:"",`CENA KOŃCOWA: ${zl(razem)}`,
     `Termin realizacji: ${terminStr(kasTerm(s))} od akceptacji projektu i wpłaty (orientacyjnie, wiąże po potwierdzeniu)`].filter(Boolean).join("\n"); }
 function kasInit(){ if(!$id("kaseton")) return; const op=(i,arr,f)=>{ $id(i).innerHTML=arr.map((a,k)=>`<option value="${k}">${f(a)}</option>`).join(""); };
-  op("kasTyp",KAS.typ,a=>a[1]); op("kasZak",ZAK,a=>a[1]); op("kasGr",KAS.gr,a=>a[1]); op("kasSw",LED.sw,a=>a[1]); op("kasOb",LED.ob,a=>a[1]); op("kasMont",KAS.mont,a=>a[1]+(a[2]?` (+${a[2]} zł)`:"")); op("kasZas",LED.zas,a=>a[1]);
+  op("kasTyp",KAS.typ,a=>a[1]); op("kasNTor",KAS.ntor,a=>a[1]); op("kasNTab",KAS.ntab,a=>a[1]+(a[2]>0?` (+${Math.round(a[2]*100)}%)`:a[2]<0?` (−${Math.round(-a[2]*100)}%)`:""));
+  $id("kasLogo").addEventListener("change",e=>kasLogoUstaw(e.target.files[0])); op("kasZak",ZAK,a=>a[1]); op("kasGr",KAS.gr,a=>a[1]); op("kasSw",LED.sw,a=>a[1]); op("kasOb",LED.ob,a=>a[1]); op("kasMont",KAS.mont,a=>a[1]+(a[2]?` (+${a[2]} zł)`:"")); op("kasZas",LED.zas,a=>a[1]);
   $$("#kaseton input,#kaseton select").forEach(e=>{ e.addEventListener("input",kasRender); e.addEventListener("change",kasRender); });
   $id("kasZamow").onclick=()=>{ const t=kasTekst(); if(!t){ toast("Wpisz napis"); return; } mailDo("Zamówienie – "+(kasWybor().neon?"neon":"kaseton świetlny"),"Dzień dobry, chcę zamówić:\n\n"+t+"\n\nLogo lub grafikę dołączam w załączniku.\nGdzie zawiśnie (w środku / pod zadaszeniem), uwagi:\n\nImię i telefon: "); };
   $id("kasKopiuj").onclick=()=>{ const t=kasTekst(); if(!t){ toast("Wpisz napis"); return; } (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Skopiowano wycenę"),()=>toast("Nie udało się skopiować")); };
@@ -15214,6 +15255,30 @@ try{ ofInit(); }catch(e){ console.error("oferta",e); }
   const start=()=>{ try{ skan(); }catch(e){} setInterval(()=>{ try{ skan(); }catch(e){} },700); };
   if(document.readyState==="complete") setTimeout(start,300); else addEventListener("load",()=>setTimeout(start,300));
 })();
+</script>
+<script>
+/* ===== 2026112141: projekt klienta → skrzynka właściciela (zaszyfrowany, ntfy.sh: powiadomienie + e-mail) ===== */
+async function projSzyfruj(dane,jwk){ const pub=await crypto.subtle.importKey("jwk",jwk,{name:"RSA-OAEP",hash:"SHA-256"},false,["encrypt"]);
+  const k=await crypto.subtle.generateKey({name:"AES-GCM",length:256},true,["encrypt"]), iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},k,new TextEncoder().encode(JSON.stringify(dane))));
+  const wk=new Uint8Array(await crypto.subtle.encrypt({name:"RSA-OAEP"},pub,await crypto.subtle.exportKey("raw",k)));
+  const out=new Uint8Array(4+2+wk.length+12+ct.length); out.set([68,51,80,49]); out[4]=wk.length>>8; out[5]=wk.length&255; out.set(wk,6); out.set(iv,6+wk.length); out.set(ct,18+wk.length); return out; }
+const plikB64=f=>new Promise((ok,no)=>{ const r=new FileReader(); r.onload=()=>ok(String(r.result)); r.onerror=no; r.readAsDataURL(f); });
+async function projektWyslij(temat,tresc){ const O=window.ODB; if(typeof kl==="function"&&!kl()) return false; if(!O||!O.t||!O.k||!window.crypto||!crypto.subtle) return false;
+  try{ const rodz=/litery/i.test(temat)?"litery":/kaseton|neon/i.test(temat)?"kaseton":/lamp/i.test(temat)?"lampa":/skan/i.test(temat)?"skan":"druk";
+    const pliki=[]; let suma=0; const dodaj=async f=>{ if(!f||suma+f.size>12e6) return; suma+=f.size; pliki.push({n:f.name,t:f.type||"",d:await plikB64(f)}); };
+    if(rodz==="kaseton"&&KAS_LOGO&&kasWybor().gr[0]==="logo") await dodaj(KAS_LOGO.blob);
+    if(rodz==="druk"&&CPLIK) await dodaj(CPLIK);
+    const dane={format:"DRUKUJ3D-PROJEKT",wersja:1,data:new Date().toISOString(),zrodlo:document.body.classList.contains("client")||typeof STRONA!=="undefined"&&STRONA?"strona/apka klienta":"program",rodzaj:rodz,temat,tresc,
+      swiatlo:(rodz==="litery"||rodz==="kaseton")?projektSwiatlo(rodz==="litery"?"litery":"kaseton"):null,pliki};
+    const bin=await projSzyfruj(dane,O.k), tytul={litery:"litery LED",kaseton:"kaseton / neon",lampa:"lampa",skan:"skanowanie 3D",druk:"druk z pliku"}[rodz];
+    const q=new URLSearchParams({filename:"projekt.d3p",title:"DRUKUJ 3D – nowy projekt klienta",message:`Nowy projekt: ${tytul}${pliki.length?` + ${pliki.length} ${pliki.length===1?"plik":"pliki"}`:""}. Otwórz program DRUKUJ 3D – projekt trafi do chmury.`,tags:"bell,package",priority:"high"});
+    if(O.e) q.set("email",O.e);
+    const r=await Promise.race([fetch("https://ntfy.sh/"+encodeURIComponent(O.t)+"?"+q,{method:"POST",body:new Blob([bin])}),new Promise((_,no)=>setTimeout(()=>no(new Error("czas")),8000))]);
+    return r.ok; }catch(e){ return false; } }
+if(typeof mailDo==="function"){ const mailOrig=mailDo;
+  window.mailDo=function(temat,tresc){ let poszlo=false; const dalej=()=>{ if(poszlo) return; poszlo=true; mailOrig(temat,tresc); };
+    projektWyslij(temat,tresc).then(ok=>{ if(ok&&typeof toast==="function") toast("✓ Projekt wysłany do DRUKUJ 3D – teraz wyślij e-mail"); dalej(); },dalej); setTimeout(dalej,9000); }; }
 </script>
 </body>
 </html>
