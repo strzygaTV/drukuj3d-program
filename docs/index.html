@@ -501,6 +501,29 @@ body.bezNowych #oferty,body.bezNowych #techMat,body.bezNowych #litery,body.bezNo
 .lmpCo button.on{border-color:#39B54A;box-shadow:0 0 0 2px rgba(57,181,74,.45) inset}
 @media (max-width:640px){.lmpCo{grid-template-columns:1fr}.lmpCo button{flex-direction:row;align-items:center;gap:10px}.lmpCo button small{margin-left:auto;text-align:right;max-width:52%}
  .lmpWz{display:grid!important;grid-template-columns:repeat(2,1fr)!important;overflow:visible!important;padding-bottom:0}.lmpWz button{flex:none!important}}
+/* ===== 2026112141: kafle oferty rozwijane w miejscu, skanowanie, kasetony ===== */
+.oferty{grid-template-columns:repeat(auto-fill,minmax(185px,1fr))!important;grid-auto-flow:row dense}
+.oferta.lmp{grid-column:auto!important}
+.oferta.on{outline:3px solid #FBB03B;outline-offset:-3px}
+.oferta.on .go::after{content:" ▴"}
+.ofPanel{grid-column:1/-1;display:none}.ofPanel.on{display:block}
+.ofPanel>.card{margin:0}
+.ofKarta:not(.ofW){display:none!important}
+.ofW>.zwSkrot{display:none!important}
+.ofW>.ph{cursor:pointer}
+.ofW>.ph::after{content:"✕ zwiń";float:right;font:700 12px var(--sans);opacity:.7}
+.oferta.skan{border-color:#1f4f8f;background:radial-gradient(110% 90% at 85% 20%,rgba(59,130,246,.30),transparent 60%),linear-gradient(135deg,#0f1a2e,#000 70%)}
+.oferta.skan .go{background:#3B82F6;color:#fff}
+.oferta .skIk{position:absolute;right:14px;bottom:12px;font-size:36px;line-height:1;filter:drop-shadow(0 0 8px #3B82F6)}
+.oferta.kas{border-color:#6b2a8f;background:radial-gradient(110% 90% at 85% 20%,rgba(255,95,176,.26),transparent 60%),linear-gradient(135deg,#1e1024,#000 70%)}
+.oferta.kas .go{background:#ff5fb0;color:#000}
+.oferta .kasIk{position:absolute;right:14px;bottom:16px;width:50px;height:32px;border:3px solid #fff;border-radius:5px;box-shadow:0 0 10px #ff5fb0,0 0 24px #ff5fb0,inset 0 0 12px #ff5fb0;background:rgba(255,255,255,.55)}
+.skanZal{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:10px 0}
+.skanZal div{padding:10px 12px;border:1px solid var(--linia);border-radius:10px;display:flex;flex-direction:column;gap:2px}
+.skanZal span{font-size:13px;opacity:.8}
+.kasBox{display:flex;align-items:center;justify-content:center;text-align:center;border:5px solid;border-radius:6px;color:#17191d;font-weight:900;font-family:'D3 Prosty','Barlow Condensed',sans-serif;letter-spacing:.04em;padding:6px;box-sizing:border-box;word-break:break-word;line-height:1.05;transition:all .25s}
+.kasBox.okr{border-radius:50%}
+.kasNeon{font:700 44px/1.15 'D3 Pisany','Segoe Script',cursive;text-align:center;word-break:break-word;max-width:100%}
 </style>
 </head>
 <body>
@@ -519,7 +542,9 @@ body.bezNowych #oferty,body.bezNowych #techMat,body.bezNowych #litery,body.bezNo
 <section class="view" id="v-cennik">
  <div class="oferty" id="oferty">
   <button type="button" class="oferta" id="ofDruk"><span class="ikona"></span><small>Główna oferta</small><b>Druk 3D z Twojego pliku</b><p>Wrzuć plik STL / OBJ / 3MF i od razu zobacz cenę. Drukujemy w wielu kolorach, wykańczamy i wysyłamy.</p><span class="go">Wyceń wydruk →</span></button>
-  <button type="button" class="oferta led" id="ofLed"><span class="ledTxt">LED</span><small>Główna oferta</small><b>Litery LED, neony i kasetony</b><p>Podświetlane litery 3D, neony i kasetony na wymiar, także z Twojego logo, w dowolnym kształcie – jako zestaw do samodzielnego montażu. Napis wycenisz od ręki.</p><span class="go">Zaprojektuj napis →</span></button>
+  <button type="button" class="oferta skan" id="ofSkan"><span class="skIk">📷</span><small>Główna oferta</small><b>Skanowanie 3D</b><p>Masz przedmiot, a nie masz pliku? Zeskanujemy go – w pracowni albo u Ciebie na miejscu – i wydrukujemy kopię, część zamienną albo pamiątkę.</p><span class="go">Wyceń skan →</span></button>
+  <button type="button" class="oferta led" id="ofLed"><span class="ledTxt">LED</span><small>Główna oferta</small><b>Litery podświetlane LED</b><p>Podświetlane litery 3D na szyld, ścianę w firmie, do salonu czy na wesele. Wpisz napis, wybierz krój i kolor – cena od ręki. Także logo z Twojego pliku.</p><span class="go">Zaprojektuj napis →</span></button>
+  <button type="button" class="oferta kas" id="ofKas"><span class="kasIk"></span><small>Główna oferta</small><b>Kasetony i neony</b><p>Kaseton świetlny z Twoim logo na szyld albo neon z napisem na ścianę – wymiar i kolory ustawisz sam, podgląd i cena od ręki.</p><span class="go">Zaprojektuj kaseton →</span></button>
   <button type="button" class="oferta lmp" id="ofLmp"><span class="lmpIk"></span><small>Główna oferta</small><b>Lampy i abażury 3D</b><p>Własne wzory: ażurowe, gładkie i z żebrami. Abażury i lampy jako zestawy do samodzielnego montażu – podgląd na żywo i cena od ręki.</p><span class="go">Zaprojektuj lampę →</span></button>
  </div>
  <div class="alert ok hidden" id="aktPas"></div>
@@ -547,7 +572,8 @@ body.bezNowych #oferty,body.bezNowych #techMat,body.bezNowych #litery,body.bezNo
   <div class="grid" style="margin-top:10px">
    <label>Modelowanie / projekt [h]<input id="cMod" type="number" min="0" step="0.25" value="0"></label>
   </div>
-  <details class="dodatkowe"><summary>Nie masz pliku? Skanowanie 3D <span class="tag">w przygotowaniu</span></summary>
+  <div class="row" style="margin-top:10px"><button class="b2" type="button" id="cDoSkan">📷 Nie masz pliku? Zeskanujemy Twój przedmiot →</button></div>
+   <details class="dodatkowe hidden"><summary>Skanowanie 3D</summary>
    <p class="note">Skanujemy przedmiot i robimy z niego model do druku. Usługa jest na razie w fazie testów – przed zamówieniem potwierdzamy, czy damy radę zeskanować dany przedmiot.</p>
    <div class="grid">
     <label>Skanowanie 3D<select id="cSkan"><option value="0">– nie –</option><option value="1">mały obiekt (do 30 cm)</option><option value="2">średni (30–100 cm)</option><option value="3">duży (ponad 1 m)</option></select></label>
@@ -567,7 +593,7 @@ body.bezNowych #oferty,body.bezNowych #techMat,body.bezNowych #litery,body.bezNo
   <p class="note">Dysponujemy profesjonalnym sprzętem: druk w zamkniętej komorze, dysze z hartowanej stali (do 300 °C), odporne na ścieranie przez włókna węglowe. Odporność na temperaturę podajemy orientacyjnie – zależy od kształtu i wypełnienia. Przy materiałach oznaczonych „po sprawdzeniu pliku” potwierdzamy zlecenie po obejrzeniu modelu (duże, płaskie części z nylonu i poliwęglanu mogą się wyginać).</p>
  </div>
  <div class="card" id="litery">
-  <div class="ph">💡 Litery podświetlane, neony i kasetony <span class="tag">na zamówienie</span></div>
+  <div class="ph">💡 Litery podświetlane LED <span class="tag">na zamówienie</span></div>
   <p class="note" style="margin-top:0">Litery 3D na miarę z taśmą LED 12 V – na szyld, ścianę w firmie, do salonu, na wesele. Wpisz napis – <b>podgląd i cena zmieniają się na bieżąco</b>.</p>
   <div class="ledScena wizBox" id="ledScena"><div class="ledNapis" id="ledNapis">DRUKUJ 3D</div><span class="wizTag">wizualizacja</span></div>
   <div class="grid" style="margin-top:10px">
@@ -595,6 +621,51 @@ body.bezNowych #oferty,body.bezNowych #techMat,body.bezNowych #litery,body.bezNo
    <li>Zawsze jako <b>zestaw do samodzielnego montażu</b>: wydruk z taśmą LED 12 V i opisanym przewodem + instrukcja dla elektryka (bez zasilacza 230 V)</li></ul>
    <button class="b" id="ledNaZamBtn" type="button">✉ Zapytaj o wycenę kasetonu, neonu lub logo</button></details>
  </div>
+  <div class="card" id="skan3d">
+   <div class="ph">📷 Skanowanie 3D – także u Ciebie <span class="tag">nowość</span></div>
+   <p class="note" style="margin-top:0"><b>Nie masz pliku? Masz przedmiot – to wystarczy.</b> Zeskanujemy go w pracowni albo <b>przyjedziemy do Ciebie</b> i zrobimy skan na miejscu. Z cyfrowej kopii 3D przygotujemy model do druku i wydrukujemy tyle sztuk, ile potrzebujesz.</p>
+   <div class="skanZal">
+    <div><b>🔧 Części, których już nie kupisz</b><span>uchwyty, pokrętła, zaślepki, elementy do starszych sprzętów</span></div>
+    <div><b>🏺 Kopie i pamiątki</b><span>figurki, ozdoby, rzeźby – także powiększone albo pomniejszone</span></div>
+    <div><b>🏠 Skan u Ciebie</b><span>duży lub delikatny przedmiot nie musi nigdzie jechać</span></div>
+    <div><b>📐 Model do dalszej pracy</b><span>prototypy, dopasowania, renowacje – plik STL / OBJ na życzenie</span></div>
+   </div>
+   <div class="grid" style="margin-top:6px">
+    <label>Wielkość przedmiotu<select id="skW"></select></label>
+    <label>Gdzie skanujemy<select id="skGdzie"><option value="0">W pracowni – przedmiot wysyłasz paczką albo przekazujesz w umówionym miejscu</option><option value="1">U Ciebie na miejscu – Bydgoszcz</option><option value="2">U Ciebie – poza Bydgoszczą (dojazd ustalimy)</option></select></label>
+    <label>Co potrzebujesz<select id="skCo"><option value="1">Skan + model gotowy do druku</option><option value="2">Skan + model + wydruk kopii</option><option value="0">Sam skan (plik do podglądu)</option></select></label>
+    <label>Ilość przedmiotów<input id="skIl" type="number" min="1" step="1" value="1"></label>
+   </div>
+   <div class="ledCena" id="skCena"></div>
+   <div id="skTerm"></div>
+   <div class="row" style="margin-top:10px"><button class="b" id="skZamow" type="button">✉ Zapytaj o skan</button><button class="b2" id="skKopiuj" type="button">📋 Kopiuj wycenę</button></div>
+   <p class="note krotko">ℹ️ Przed zamówieniem potwierdzamy, czy dany przedmiot da się dobrze zeskanować – bardzo błyszczące, przezroczyste albo bardzo ciemne powierzchnie mogą wymagać zmatowienia. Wydruk kopii wyceniamy osobno, po przygotowaniu modelu (cena jak za druk z pliku).</p>
+  </div>
+  <div class="card" id="kaseton">
+   <div class="ph">🔆 Kasetony świetlne i neony <span class="tag">na zamówienie</span></div>
+   <p class="note" style="margin-top:0">Kaseton z Twoim logo na szyld, do sklepu lub biura albo neon z napisem na ścianę – ustaw wymiar i kolory, <b>podgląd i cena zmieniają się na bieżąco</b>.</p>
+   <div class="ledScena wizBox" id="kasScena"><div id="kasObj" class="kasBox">TWOJE LOGO</div><span class="wizTag">wizualizacja</span></div>
+   <div class="grid" style="margin-top:10px">
+    <label style="grid-column:1/-1">Co zamawiasz<select id="kasTyp"></select></label>
+    <label id="kasLW">Szerokość (cm, 20–120)<input id="kasW" type="number" min="20" max="120" step="5" value="60"></label>
+    <label id="kasLH">Wysokość (cm, 20–80)<input id="kasH" type="number" min="20" max="80" step="5" value="40"></label>
+    <label id="kasLGr">Na licu<select id="kasGr"></select></label>
+    <label style="grid-column:1/-1" id="kasLT">Napis<input id="kasTekst" maxlength="30" value="Otwarte" placeholder="np. Otwarte, nazwa firmy, imię"></label>
+    <label id="kasLNh">Wysokość napisu (cm)<input id="kasNh" type="number" min="10" max="60" step="5" value="20"></label>
+    <label>Kolor światła<select id="kasSw"></select></label>
+    <label>Kolor obudowy<select id="kasOb"></select></label>
+    <label>Mocowanie<select id="kasMont"></select></label>
+    <label>Przewód LED 12 V<select id="kasZas"></select></label>
+    <label>Ilość<input id="kasIl" type="number" min="1" step="1" value="1"></label>
+    <label>Tło podglądu<select id="kasTlo"><option value="c">ciemna ściana</option><option value="j">jasna ściana</option></select></label>
+   </div>
+   <div class="ledCena" id="kasCena"></div>
+   <div id="kasTerm"></div>
+   <div class="row" style="margin-top:10px"><button class="b" id="kasZamow" type="button">✉ Zamów / zapytaj</button><button class="b2" id="kasKopiuj" type="button">📋 Kopiuj wycenę</button></div>
+   <p class="note owner-only" id="kasWl" style="margin:8px 0 0"></p>
+   <p class="note krotko">ℹ️ Podgląd to wizualizacja – gotowy produkt może się różnić. Zestaw do montażu, bez zasilacza 230 V. Kasetony większe niż 30 cm składamy z kilku części.</p>
+   <details class="wiecej"><summary>Co dostajesz i szczegóły</summary><div class="zestaw"><b>Zestaw do samodzielnego montażu – bez elektryki 230 V.</b> Dostajesz wydrukowaną obudowę z licem (kaseton) albo napis z linią świetlną (neon) z wklejonym oświetleniem LED niskiego napięcia 12 V DC, z jednym wyprowadzonym przewodem opisanym „+” i „−”, oraz <b>instrukcję PDF</b>: jaki zasilacz dokupić (12 V DC z oznaczeniem CE), jak zamocować i podłączyć przez elektryka. Logo przygotowujemy z Twojego pliku (PDF, SVG, AI, PNG) – przed drukiem dostajesz projekt do akceptacji. Nietypowe kształty i większe wymiary – zapytaj.</div><p class="note wizInfo">ℹ️ Podgląd to komputerowa wizualizacja, a nie zdjęcie gotowego produktu. Gotowy produkt może się różnić kolorem, odcieniem światła i proporcjami.</p></details>
+  </div>
  <div class="card" id="lampy">
   <div class="ph">🛋️ Lampy i abażury 3D <span class="tag">na zamówienie</span></div>
   <p class="note" style="margin-top:0">Autorskie wzory – ażurowe (rzucają wzór światła na ścianę) albo gładkie. Wybierz wzór, kształt, rozmiar i kolor – <b>podgląd i cena zmieniają się na bieżąco</b>.</p>
@@ -14933,6 +15004,89 @@ function zwInit(){ for(const id in ZW){ const c=document.getElementById(id); if(
   ph.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); zwUstaw(c,c.classList.contains("zwiniete")); } });
   c.addEventListener("click",e=>{ if(c.classList.contains("zwiniete")&&!e.target.closest(".ph")) zwUstaw(c,true); }); } }
 zwInit();
+</script>
+<script>
+/* ===== 2026112141: OFERTA – kafel rozwija konfigurator w miejscu + skanowanie 3D + kasetony i neony ===== */
+const SKAN={dojazd:49, obrH:[1,2,4]};   // dojazd w Bydgoszczy [zł], godziny obróbki skanu wg wielkości
+const KAS={typ:[["kas1","Kaseton jednostronny",1],["kas2","Kaseton dwustronny (np. na wysięgnik)",1.35],["okr","Kaseton okrągły (logo, znak)",1.15],["neon","Neon – napis à la neon",0]],
+ baza:129, m2:800, min:199, neonBaza:99, neonM:299, neonMin:249,
+ gr:[["logo","Twoje logo lub grafika (plik dołączysz do zamówienia)"],["napis","Sam napis"]],
+ mont:[["sciana","Na ścianę – uchwyty i szablon wiercenia (montujesz sam)",0],["lina","Do podwieszenia – linki i uchwyty",29],["wys","Wysięgnik ścienny (do kasetonu dwustronnego)",79]]};
+const OF={ofDruk:"cWyc",ofSkan:"skan3d",ofLed:"litery",ofKas:"kaseton",ofLmp:"lampy"}; let ofOtw=null; const ofMiejsce={};
+const $id=i=>document.getElementById(i);
+function ofZamknij(){ if(!ofOtw) return; const c=$id(OF[ofOtw]), b=$id(ofOtw); if(c&&ofMiejsce[OF[ofOtw]]){ ofMiejsce[OF[ofOtw]].after(c); c.classList.remove("ofW"); }
+  if(b){ b.classList.remove("on"); b.setAttribute("aria-expanded","false"); } const p=$id("ofPanel"); if(p) p.classList.remove("on"); ofOtw=null; }
+function ofKlik(t,przewin){ const p=$id("ofPanel"), b=$id(t), c=$id(OF[t]); if(!p||!b||!c) return; const y0=b.getBoundingClientRect().top, bylo=ofOtw;
+  ofZamknij();
+  if(bylo!==t){ ofOtw=t; b.after(p); p.appendChild(c); c.classList.add("ofW"); if(c.classList.contains("zw")&&typeof zwUstaw==="function") zwUstaw(c,true); else if(typeof zwOdswiez==="function") zwOdswiez(c.id);
+    p.classList.add("on"); b.classList.add("on"); b.setAttribute("aria-expanded","true"); try{ window.dispatchEvent(new Event("resize")); }catch(e){} }
+  if(przewin) setTimeout(()=>b.scrollIntoView({behavior:"smooth",block:"start"}),40);
+  else { const dy=b.getBoundingClientRect().top-y0; if(Math.abs(dy)>2) scrollBy(0,dy); } }   // kafel zostaje pod palcem – nic nie „ucieka”
+function ofInit(){ const ofy=$id("oferty"); if(!ofy) return;
+  for(const t in OF){ const b=$id(t), c=$id(OF[t]); if(!b||!c) continue; const m=document.createComment("miejsce:"+OF[t]); c.before(m); ofMiejsce[OF[t]]=m; c.classList.add("ofKarta");
+    b.setAttribute("aria-expanded","false"); b.onclick=e=>{ e.preventDefault(); ofKlik(t); }; }
+  const p=document.createElement("div"); p.id="ofPanel"; p.className="ofPanel"; ofy.appendChild(p);
+  p.addEventListener("click",e=>{ const h=e.target.closest(".ofW>.ph"); if(!h||e.target.closest("a,button,input,select,textarea")) return; e.stopPropagation(); e.preventDefault(); if(ofOtw) ofKlik(ofOtw); },true);
+  const st=zwPokaz; zwPokaz=function(id){ const t=Object.keys(OF).find(k=>OF[k]===id); if(t&&$id(t)){ if(ofOtw!==t) ofKlik(t,true); else $id(t).scrollIntoView({behavior:"smooth",block:"start"}); return; } st(id); };
+  const ds=$id("cDoSkan"); if(ds) ds.onclick=()=>zwPokaz("skan3d"); }
+/* ---- skanowanie 3D ---- */
+function skLicz(){ const c=usl(), g=i=>+(($id(i)||{}).value)||0, w=g("skW"), gdzie=g("skGdzie"), co=g("skCo"), il=Math.max(1,Math.round(g("skIl")||1));
+  const skan=[c.c1,c.c2,c.c3][w], obr=co?SKAN.obrH[w]*c.obr:0, doj=gdzie===1?SKAN.dojazd:0;
+  const razem=Math.round(Math.max(c.min,(skan+obr)*il+doj)*100)/100; return {w,gdzie,co,il,skan,obr,doj,razem}; }
+const SK_W=["mały – do 30 cm (np. figurka, część, uchwyt)","średni – 30–100 cm (np. element mebla, rzeźba)","duży – ponad 1 m (np. motocykl, część auta)"];
+const SK_CO=["Sam skan (plik do podglądu)","Skan + model gotowy do druku","Skan + model + wydruk kopii"];
+const SK_G=["W pracowni (przedmiot wysyłasz paczką albo przekazujesz w umówionym miejscu)","U Ciebie na miejscu – Bydgoszcz","U Ciebie – poza Bydgoszczą (dojazd do ustalenia)"];
+function skTerm(s){ return terminW(4+s.w+(s.co===2?2:0),9+2*s.w+(s.co===2?4:0)); }
+function skRender(){ if(!$id("skan3d")) return; const s=skLicz();
+  $id("skCena").innerHTML=`<span class="note">Cena orientacyjna</span><b>${zl(s.razem)}</b><span class="note">skan ${zl(s.skan)}${s.obr?` + model do druku ${zl(s.obr)}`:""}${s.il>1?` · × ${s.il} przedmioty`:""}${s.doj?` + dojazd ${zl(s.doj)}`:""}${s.gdzie===2?" + dojazd do ustalenia":""}${s.co===2?" · wydruk kopii wycenimy po przygotowaniu modelu":""}</span>`;
+  $id("skTerm").innerHTML=terminHtml(skTerm(s),"od uzgodnienia terminu skanu"); }
+function skTekst(){ const s=skLicz(); return [`Skanowanie 3D – DRUKUJ 3D`,`Przedmiot: ${SK_W[s.w]}`,`Ilość przedmiotów: ${s.il}`,`Gdzie: ${SK_G[s.gdzie]}`,`Zakres: ${SK_CO[s.co]}`,`Cena orientacyjna: ${zl(s.razem)}${s.gdzie===2?" + dojazd do ustalenia":""}${s.co===2?" + wydruk kopii (wycena po przygotowaniu modelu)":""}`,`Termin: ${terminStr(skTerm(s))} od uzgodnienia terminu skanu (orientacyjnie, wiąże po potwierdzeniu)`].join("\n"); }
+function skInit(){ if(!$id("skan3d")) return; const c=usl(); $id("skW").innerHTML=SK_W.map((t,i)=>`<option value="${i}">${t} – ${zl([c.c1,c.c2,c.c3][i])}</option>`).join("");
+  ["skW","skGdzie","skCo","skIl"].forEach(i=>{ $id(i).addEventListener("input",skRender); $id(i).addEventListener("change",skRender); });
+  $id("skZamow").onclick=()=>mailDo("Zapytanie – skanowanie 3D","Dzień dobry, chcę zeskanować przedmiot:\n\n"+skTekst()+"\n\nCo to za przedmiot, z czego jest i jakie ma wymiary (zdjęcie w załączniku):\n\nGdzie i kiedy pasuje skan:\n\nImię i telefon: ");
+  $id("skKopiuj").onclick=()=>{ const t=skTekst(); (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Skopiowano wycenę"),()=>toast("Nie udało się skopiować")); };
+  skRender(); }
+/* ---- kasetony i neony ---- */
+function kasWybor(){ const g=i=>+(($id(i)||{}).value)||0, v=i=>(($id(i)||{}).value)||"", typ=KAS.typ[g("kasTyp")], neon=typ[0]==="neon";
+  const W=Math.max(20,Math.min(120,g("kasW")||60)), H=typ[0]==="okr"?W:Math.max(20,Math.min(80,g("kasH")||40));
+  return {typ,neon,W,H,t:v("kasTekst").trim(),nh:Math.max(10,Math.min(60,g("kasNh")||20)),gr:KAS.gr[g("kasGr")],sw:LED.sw[g("kasSw")],ob:LED.ob[g("kasOb")],m:KAS.mont[g("kasMont")],z:LED.zas[g("kasZas")],il:Math.max(1,Math.round(g("kasIl")||1))}; }
+function kasLicz(){ const s=kasWybor(); let jeden, lm=0;
+  if(s.neon){ const n=[...s.t.replace(/\s/g,"")].length; lm=Math.round(n*s.nh*3.2)/100; jeden=(KAS.neonBaza+KAS.neonM*lm)*(1+s.sw[3]); }   // długość linii ≈ 3,2 × wysokość na znak
+  else { const m2=(s.typ[0]==="okr"?Math.PI/4:1)*s.W*s.H/1e4; jeden=(KAS.baza+KAS.m2*m2)*s.typ[2]*(1+s.sw[3]+s.ob[3]); }
+  jeden=Math.round((jeden+s.m[2]+s.z[2])*100)/100; const mn=s.neon?KAS.neonMin:KAS.min;
+  const razem=(s.neon&&!lm)?0:Math.max(mn,Math.round(jeden*s.il*100)/100); return {s,lm,jeden,razem,mn}; }
+function kasTerm(s){ return s.neon?terminW(9,16):terminW(10,20); }
+function kasPodglad(){ const {s}=kasLicz(), sc=$id("kasScena"), el=$id("kasObj"); if(!el||!sc) return;
+  const kol=s.sw[2]==="rgb"?"#ff5fb0":s.sw[2], wMax=Math.max(160,(sc.clientWidth||320)-50), hMax=140;
+  if(s.neon){ el.className="kasNeon"; el.style.cssText=""; el.textContent=s.t||"Twój neon"; el.style.color="#fffdf7";
+    el.style.textShadow=s.sw[2]==="rgb"?"0 0 3px #fff,0 0 10px #ff5fb0,0 0 22px #c04dff,0 0 40px #4d8dff":`0 0 2px #fff,0 0 8px ${kol},0 0 18px ${kol},0 0 36px ${kol},0 0 60px ${kol}`;
+    const len=[...(s.t||"Twój neon")].length; el.style.fontSize=Math.max(22,Math.min(72,wMax/(Math.max(len,4)*.48)))+"px"; }
+  else { const k=Math.min(wMax/s.W,hMax/s.H), w=Math.round(s.W*k), h=Math.round(s.H*k);
+    el.className="kasBox"+(s.typ[0]==="okr"?" okr":""); el.style.cssText=`width:${w}px;height:${h}px;border-color:${s.ob[2]};box-shadow:0 0 16px ${kol},0 0 44px ${kol},inset 0 0 26px ${kol};background:radial-gradient(circle,#fffef8 30%,${kol==="rgb"?"#ffd":kol} 140%)`;
+    el.textContent=s.gr[0]==="logo"?"TWOJE LOGO":(s.t||"TWÓJ NAPIS"); el.style.fontSize=Math.max(11,Math.min(42,Math.round(Math.min(h*.3,w/Math.max(6,el.textContent.length)*1.5))))+"px"; }
+  sc.classList.toggle("jasna",(($id("kasTlo")||{}).value)==="j"); }
+function kasRender(){ if(!$id("kaseton")) return; const {s,lm,jeden,razem,mn}=kasLicz(); kasPodglad();
+  const pok=(i,on)=>{ const e=$id(i); if(e) e.classList.toggle("hidden",!on); };
+  pok("kasLW",!s.neon); pok("kasLH",!s.neon&&s.typ[0]!=="okr"); pok("kasLGr",!s.neon); pok("kasLNh",s.neon); pok("kasLT",s.neon||s.gr[0]==="napis");
+  $id("kasLW").firstChild.textContent=s.typ[0]==="okr"?"Średnica (cm, 20–120)":"Szerokość (cm, 20–120)";
+  $id("kasCena").innerHTML=razem?`<span class="note">Cena końcowa</span><b>${zl(razem)}</b><span class="note">${s.neon?`linia świetlna ok. ${lm.toLocaleString("pl-PL")} m, napis ok. ${s.nh} cm`:(s.typ[0]==="okr"?`Ø ${s.W} cm`:`${s.W} × ${s.H} cm`)}${s.il>1?` · ${s.il} szt. × ${zl(jeden)}`:""}${razem===mn&&jeden*s.il<mn?` · minimalne zamówienie ${zl(mn)}`:""} · zestaw do montażu, bez zasilacza 230 V</span>`:`<span class="note">Wpisz napis, żeby zobaczyć cenę.</span>`;
+  $id("kasTerm").innerHTML=razem?terminHtml(kasTerm(s),"zestaw do samodzielnego montażu"):"";
+  const o=$id("kasWl"); if(o&&typeof zewModel==="function"&&typeof calHm==="function"){ try{ const Z=zewZal(), m=zewModel(s.neon?{rodz:"neo",w:Math.max(20,lm*50),kh:s.nh+10,lm:lm||0.5,tlo:"b",il:s.il}:{rodz:"kas",w:s.W,kh:s.H,str:s.typ[0]==="kas2"?2:1,il:s.il},Z), ds=calDruk(m.hD,m.g2);
+    o.innerHTML=`Tylko Ty: druk szacunkowo <b>${Math.round(m.g2)} g</b>, <b>${calHm(m.hD)}</b>, ${Math.round(m.cz)} ${calSzt(Math.round(m.cz),"część","części","części")}; LED ok. ${zl(m.led)}. Sam druk (jak w oknie Wycena) ok. ${zl(ds)}.${ds>=razem?" ⚠ Według szacunku sam druk kosztuje tyle co cena dla klienta – sprawdź w slicerze i ewentualnie podnieś cenę.":""}${m.uw.length?" ⚠ "+esc(m.uw.join("; ")):""}`; }catch(e){ o.innerHTML=""; } } }
+function kasTekst(){ const {s,lm,razem}=kasLicz(); if(!razem) return "";
+  return [`${s.neon?"Neon à la neon":"Kaseton świetlny"} – DRUKUJ 3D`,`Rodzaj: ${s.typ[1]}`,s.neon?`Napis: „${s.t}”, wysokość ok. ${s.nh} cm, linia świetlna ok. ${lm.toLocaleString("pl-PL")} m`:`Wymiar: ${s.typ[0]==="okr"?"Ø "+s.W:s.W+" × "+s.H} cm`,
+    s.neon?"":`Na licu: ${s.gr[1]}${s.gr[0]==="napis"&&s.t?` – „${s.t}”`:""}`,`Kolor światła: ${s.sw[1]}`,`Kolor obudowy: ${s.ob[1]}`,`Mocowanie: ${s.m[1]}`,`Przewód: ${s.z[1]}`,
+    `Zestaw do samodzielnego montażu: wydruk z oświetleniem LED 12 V i opisanym przewodem + instrukcja PDF dla elektryka. Bez zasilacza 230 V, bez montażu i podłączenia.`,`Ilość: ${s.il}`,`CENA KOŃCOWA: ${zl(razem)}`,
+    `Termin realizacji: ${terminStr(kasTerm(s))} od akceptacji projektu i wpłaty (orientacyjnie, wiąże po potwierdzeniu)`].filter(Boolean).join("\n"); }
+function kasInit(){ if(!$id("kaseton")) return; const op=(i,arr,f)=>{ $id(i).innerHTML=arr.map((a,k)=>`<option value="${k}">${f(a)}</option>`).join(""); };
+  op("kasTyp",KAS.typ,a=>a[1]); op("kasGr",KAS.gr,a=>a[1]); op("kasSw",LED.sw,a=>a[1]); op("kasOb",LED.ob,a=>a[1]); op("kasMont",KAS.mont,a=>a[1]+(a[2]?` (+${a[2]} zł)`:"")); op("kasZas",LED.zas,a=>a[1]);
+  $$("#kaseton input,#kaseton select").forEach(e=>{ e.addEventListener("input",kasRender); e.addEventListener("change",kasRender); });
+  $id("kasZamow").onclick=()=>{ const t=kasTekst(); if(!t){ toast("Wpisz napis"); return; } mailDo("Zamówienie – "+(kasWybor().neon?"neon":"kaseton świetlny"),"Dzień dobry, chcę zamówić:\n\n"+t+"\n\nLogo lub grafikę dołączam w załączniku.\nGdzie zawiśnie (w środku / pod zadaszeniem), uwagi:\n\nImię i telefon: "); };
+  $id("kasKopiuj").onclick=()=>{ const t=kasTekst(); if(!t){ toast("Wpisz napis"); return; } (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Skopiowano wycenę"),()=>toast("Nie udało się skopiować")); };
+  addEventListener("resize",()=>kasPodglad()); kasRender(); }
+try{ skInit(); }catch(e){ console.error("skan",e); }
+try{ kasInit(); }catch(e){ console.error("kaseton",e); }
+try{ ofInit(); }catch(e){ console.error("oferta",e); }
 </script>
 <script>/* ===== LAMPY – układ „od razu widać” (2026112131) ===== */
 (function(){ var co=document.getElementById("lmpCo"), t=document.getElementById("lmpTyp"); if(!co||!t||typeof LMP==="undefined") return;
