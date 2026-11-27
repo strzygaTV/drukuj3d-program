@@ -528,6 +528,23 @@ body.bezNowych #oferty,body.bezNowych #techMat,body.bezNowych #litery,body.bezNo
 .rozb{margin-top:8px}.rozb summary{cursor:pointer;font-weight:700}.rozb table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px}.rozb td{padding:5px 6px;border-bottom:1px solid var(--linia)}.rozb td.n{text-align:right;white-space:nowrap}.rozb tr.suma td{font-weight:800;border-top:2px solid #FBB03B;border-bottom:0}.rozb tr.bez td{opacity:.75;font-style:italic}
 /* 2026112141: podgląd 3D */
 .p3d{position:relative;margin-top:8px;border-radius:12px;overflow:hidden;background:radial-gradient(circle at 50% 35%,#3a3f4b,#16181d);touch-action:none}.p3d canvas{display:block;width:100%;height:280px;cursor:grab}.p3d .p3dInfo{position:absolute;right:8px;top:8px;font:600 12px var(--sans,sans-serif);color:#fff;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:8px}.p3d .wizTag{position:absolute;left:8px;bottom:8px}.p3d .p3dHint{position:absolute;right:8px;top:36px;font:11px var(--sans,sans-serif);color:#ddd;opacity:.8}
+/* 2026112141: czytelniej – kafelki zamiast krótkich list */
+body{font-size:15.5px}
+input,select,textarea{font-size:16px;min-height:44px}
+label{font-weight:600}
+.kafUkryty{display:none!important}
+.grid>label:has(.kafWyb){grid-column:1/-1}
+.kafWyb{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px;margin-top:6px;font-weight:500}
+.kafWyb button{min-height:48px;padding:10px 12px;border:2px solid var(--linia);border-radius:10px;background:var(--karta2);color:var(--grafit);font:700 15px/1.25 var(--sans);text-align:center;cursor:pointer;transition:border-color .12s,background .12s}
+.kafWyb button:hover{border-color:var(--akc)}
+.kafWyb button.on{border-color:var(--akc);background:color-mix(in srgb,var(--akc) 20%,var(--karta2));box-shadow:0 0 0 1px var(--akc) inset}
+.kafWyb button.on::before{content:"✓ ";color:var(--akc)}
+.kafWyb button:disabled{opacity:.45;cursor:not-allowed}
+.ledCena b,.wycCena b{font-size:clamp(30px,8vw,42px)!important;line-height:1.1}
+#cRes .suma b{font-size:clamp(24px,6.5vw,32px)}
+.note{font-size:14px}
+/* telefon w pionie: pola z kafelkami na całą szerokość, tytuły kafli oferty bez łamania w pół słowa */
+@media (max-width:560px){.ofPanel .grid{grid-template-columns:1fr!important}.ofPanel .grid>*{grid-column:1/-1}.oferta b{font-size:17px!important;overflow-wrap:normal;word-break:normal;hyphens:manual}.oferta .go{font-size:14px}.kafWyb{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
 </style>
 </head>
 <body>
@@ -15176,6 +15193,26 @@ try{ ofInit(); }catch(e){ console.error("oferta",e); }
   co.querySelectorAll("button").forEach(function(b){ b.onclick=function(){ var i=LMP.typ.findIndex(function(x){ return x[0]===b.dataset.t; }); if(i<0) return;
     t.value=String(i); t.dispatchEvent(new Event("change",{bubbles:true})); sync(); }; });
   t.addEventListener("change",sync); t.addEventListener("input",sync); setInterval(sync,1500); sync();
+})();
+</script>
+<script>
+/* ===== 2026112141: krótkie listy wyboru → kafelki (select zostaje ukryty i dalej steruje wszystkim) ===== */
+(function(){ const MAX=6, e3=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const podpis=s=>[...s.options].map(o=>o.text+"\u0001"+o.disabled).join("\u0002");
+  const nadaje=s=>!s.multiple&&s.dataset.kaf!=="0"&&!s.closest("table,#dlg,.noKaf")&&!s.querySelector("optgroup")&&s.options.length>=2&&s.options.length<=MAX&&[...s.options].every(o=>o.text.length<=70);
+  function syn(s){ const g=s._kaf; if(!g) return; g.querySelectorAll("button").forEach((b,i)=>{ const on=i===s.selectedIndex; if(b.classList.contains("on")!==on){ b.classList.toggle("on",on); b.setAttribute("aria-checked",on?"true":"false"); } }); }
+  function zbuduj(s){ let g=s._kaf; if(!g){ g=document.createElement("div"); g.className="kafWyb"; g.setAttribute("role","radiogroup"); s.after(g); s._kaf=g; }
+    s.classList.add("kafUkryty"); s._kafP=podpis(s);
+    g.innerHTML=[...s.options].map((o,i)=>`<button type="button" role="radio" aria-checked="false" data-i="${i}"${o.disabled?" disabled":""}>${e3(o.text)}</button>`).join("");
+    g.querySelectorAll("button").forEach(b=>b.onclick=ev=>{ ev.preventDefault(); s.selectedIndex=+b.dataset.i; s.dispatchEvent(new Event("input",{bubbles:true})); s.dispatchEvent(new Event("change",{bubbles:true})); syn(s); });
+    syn(s); }
+  function rozbierz(s){ if(s._kaf){ s._kaf.remove(); s._kaf=null; } s.classList.remove("kafUkryty"); }
+  function skan(){ document.querySelectorAll("select").forEach(s=>{ const ok=nadaje(s);
+      if(s._kaf){ if(!ok) rozbierz(s); else if(s._kafP!==podpis(s)) zbuduj(s); else syn(s); }
+      else if(ok) zbuduj(s); }); }
+  document.addEventListener("change",e=>{ if(e.target&&e.target._kaf) syn(e.target); },true);
+  const start=()=>{ try{ skan(); }catch(e){} setInterval(()=>{ try{ skan(); }catch(e){} },700); };
+  if(document.readyState==="complete") setTimeout(start,300); else addEventListener("load",()=>setTimeout(start,300));
 })();
 </script>
 </body>
