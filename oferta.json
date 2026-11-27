@@ -1,5 +1,5 @@
 {
- "aktualizacja": "2026-11-27T17:32:50.357Z",
+ "aktualizacja": "2026-11-27T18:33:00.611Z",
  "filamenty": [
   {
    "id": "mw3bjo8wjq0re",
@@ -191,5 +191,19 @@
   "fb": "https://www.facebook.com/profile.php?id=61596449963210",
   "yt": "https://www.youtube.com/@drukuj3d.bydgoszcz",
   "miasto": "Bydgoszcz"
+ },
+ "odb": {
+  "t": "d3p-1s663x3a6x434p55070i",
+  "k": {
+   "alg": "RSA-OAEP-256",
+   "e": "AQAB",
+   "ext": true,
+   "key_ops": [
+    "encrypt"
+   ],
+   "kty": "RSA",
+   "n": "unywe3EGR_Mr1IIzUAEx2OAzdIsh9CnZiVXaJLwDHqE_fs4MGp1MqxgzJhjBF3O4_rMOCQGIw2U4sgpJDVdjAJCc2BEHOCpcy36AzU6C5mM585N76tQYwPqA08AMneUD7vaGOrXeUXDA9fDORAr_wQ0NBMUCY7uRvNj5f64zusnog_I8Q3OT0M25deGw80xdpuLuTqkH-KpiBAwSt5aqjAcb8LvGkL5Ksb31bs2dp5GoJdxj0PB8zcHay0fdDoLAktea-wqEap8EAYypD7gPoixF0TCcjMlnqQAcvmzWXKrKV8q2Ncgq-xZUBAzN-4EBsBG6vv69GET4OB-xewmcpQ"
+  },
+  "e": "drukuj3dmtw@proton.me"
  }
 }
