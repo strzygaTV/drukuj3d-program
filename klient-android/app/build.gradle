@@ -8,7 +8,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode((System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInteger())
-        versionName "1.3.1"
+        versionName "1.3.2"
     }
     signingConfigs { release { if (ksPath) { storeFile file(ksPath); storePassword System.getenv("KS_PASS"); keyAlias System.getenv("KS_ALIAS") ?: "drukuj3d"; keyPassword System.getenv("KS_PASS") } } }
     buildTypes { release { minifyEnabled false; signingConfig ksPath ? signingConfigs.release : signingConfigs.debug } }
