@@ -590,7 +590,7 @@ label{font-weight:600}
   <button type="button" class="oferta skan" id="ofSkan"><span class="skIk">📷</span><small>Główna oferta</small><b>Skanowanie 3D</b><p>Masz przedmiot, a nie masz pliku? Zeskanujemy go – w pracowni albo u Ciebie na miejscu – i wydrukujemy kopię, część zamienną albo pamiątkę.</p><span class="go">Wyceń skan →</span></button>
   <button type="button" class="oferta led" id="ofLed"><span class="ledTxt">LED</span><small>Główna oferta</small><b>Litery podświetlane LED</b><p>Podświetlane litery 3D na szyld, ścianę w firmie, do salonu czy na wesele. Wpisz napis, wybierz krój i kolor – cena od ręki. Także logo z Twojego pliku.</p><span class="go">Zaprojektuj napis →</span></button>
   <button type="button" class="oferta kas" id="ofKas"><span class="kasIk"></span><small>Główna oferta</small><b>Kasetony i neony</b><p>Kaseton świetlny z Twoim logo na szyld albo neon z napisem na ścianę – wymiar i kolory ustawisz sam, podgląd i cena od ręki.</p><span class="go">Zaprojektuj kaseton →</span></button>
-  <button type="button" class="oferta wit" id="ofWit"><span class="witIk"></span><small>Nowość</small><b>Witraże 3D</b><p>Kolorowe szkiełka z przezroczystego filamentu w ramie jak z ołowiu – do okna albo podświetlane LED na ścianę. Wzór, kolory i wymiar ustawisz sam.</p><span class="go">Zaprojektuj witraż →</span></button>
+  <button type="button" class="oferta wit" id="ofWit"><span class="witIk"></span><small>Nowość</small><b>Witraże 3D</b><p>Kolorowe, prześwitujące pola z przezroczystego filamentu w drukowanej ramce – całość to wydruk 3D z tworzywa, bez szkła i metalu. Do okna albo podświetlany LED na ścianę. Wzór, kolory i wymiar ustawisz sam.</p><span class="go">Zaprojektuj witraż →</span></button>
   <button type="button" class="oferta lmp" id="ofLmp"><span class="lmpIk"></span><small>Główna oferta</small><b>Lampy i abażury 3D</b><p>Własne wzory: ażurowe, gładkie i z żebrami. Abażury i lampy jako zestawy do samodzielnego montażu – podgląd na żywo i cena od ręki.</p><span class="go">Zaprojektuj lampę →</span></button>
  </div>
  <div class="alert ok hidden" id="aktPas"></div>
@@ -693,7 +693,7 @@ label{font-weight:600}
   <div class="card" id="kaseton">
    <div class="ph">🔆 Kasetony świetlne i neony <span class="tag">na zamówienie</span></div>
    <p class="note" style="margin-top:0">Kaseton z Twoim logo na szyld, do sklepu lub biura albo neon z napisem na ścianę – ustaw wymiar i kolory, <b>podgląd i cena zmieniają się na bieżąco</b>.</p>
-      <p class="note" style="margin-top:0">🪟 Szukasz czegoś kolorowego? <a href="#witraz" onclick="zwPokaz('witraz');return false">Witraż podświetlany LED</a> – szkiełka z drukarki 3D w obudowie jak kaseton.</p>
+      <p class="note" style="margin-top:0">🪟 Szukasz czegoś kolorowego? <a href="#witraz" onclick="zwPokaz('witraz');return false">Witraż podświetlany LED</a> – kolorowe pola wydrukowane z przezroczystego filamentu, w obudowie jak kaseton.</p>
    <div class="ledScena wizBox" id="kasScena"><div id="kasObj" class="kasBox">TWOJE LOGO</div><span class="wizTag">wizualizacja</span></div>
    <div class="grid" style="margin-top:10px">
     <label style="grid-column:1/-1">Co zamawiasz<select id="kasTyp"></select></label>
@@ -728,20 +728,20 @@ label{font-weight:600}
   </div>
  <div class="card" id="witraz">
    <div class="ph">🪟 Witraże 3D <span class="tag">na zamówienie</span></div>
-   <p class="note" style="margin-top:0">Witraż drukowany w wielu kolorach naraz: kolorowe, przepuszczające światło szkiełka w ramie jak z ołowiu. Do okna, na drzwi szafy albo <b>podświetlany LED na ścianę</b> – podgląd i cena zmieniają się na bieżąco.</p>
+   <p class="note" style="margin-top:0">Witraż drukowany w wielu kolorach naraz: kolorowe, przepuszczające światło pola z przezroczystego filamentu (PETG) w drukowanej ramce. Wygląda jak klasyczny witraż, ale nie ma w nim szkła, ołowiu ani metalu – całość to wydruk 3D z tworzywa. Do okna, na drzwi szafy albo <b>podświetlany LED na ścianę</b> – podgląd i cena zmieniają się na bieżąco.</p>
    <div class="ledScena wizBox witScena" id="witScena"><canvas id="witCv" aria-label="Podgląd witrażu"></canvas><span class="wizTag">wizualizacja</span></div>
-   <div class="row" style="margin-top:8px"><button class="b2" id="witLos" type="button">🎲 Inny układ szkiełek</button></div>
+   <div class="row" style="margin-top:8px"><button class="b2" id="witLos" type="button">🎲 Inny układ pól</button></div>
    <div class="grid" style="margin-top:10px">
     <label style="grid-column:1/-1">Co zamawiasz<select id="witWer"></select></label>
     <label style="grid-column:1/-1">Kształt<select id="witKs"></select></label>
     <label id="witLW">Szerokość (cm, 15–120)<input id="witW" type="number" min="15" max="120" step="5" value="40"></label>
     <label id="witLH">Wysokość (cm, 15–120)<input id="witH" type="number" min="15" max="120" step="5" value="60"></label>
     <label style="grid-column:1/-1">Wzór<select id="witWz"></select></label>
-    <label style="grid-column:1/-1" id="witLPlik">Twój wzór lub logo – plik (PNG, JPG, SVG albo PDF)<input id="witPlik" type="file" accept="image/*,.svg,.pdf"><span class="note" id="witPlikInfo">Szkiełka dobiorą kolory z Twojego obrazka. Plik wyślemy razem z zamówieniem, a projekt pokażemy do akceptacji.</span></label>
-    <label style="grid-column:1/-1">Wielkość szkiełek<select id="witGe"></select></label>
-    <label style="grid-column:1/-1">Kolory szkła<select id="witPal"></select></label>
+    <label style="grid-column:1/-1" id="witLPlik">Twój wzór lub logo – plik (PNG, JPG, SVG albo PDF)<input id="witPlik" type="file" accept="image/*,.svg,.pdf"><span class="note" id="witPlikInfo">Kolorowe pola dobiorą barwy z Twojego obrazka. Plik wyślemy razem z zamówieniem, a projekt pokażemy do akceptacji.</span></label>
+    <label style="grid-column:1/-1">Wielkość pól<select id="witGe"></select></label>
+    <label style="grid-column:1/-1">Kolory pól (przezroczysty filament)<select id="witPal"></select></label>
     <label style="grid-column:1/-1" id="witLWl">Twoje 3 kolory<span class="witKol"><input type="color" id="witK1" value="#c8102e"><input type="color" id="witK2" value="#1f4fa8"><input type="color" id="witK3" value="#f2a900"></span></label>
-    <label>Ołów i rama<select id="witOl"></select></label>
+    <label>Kolor konturów i ramy<select id="witOl"></select></label>
     <label id="witLSw">Kolor światła<select id="witSw"></select></label>
     <label id="witLZas">Przewód LED 12 V<select id="witZas"></select></label>
     <label style="grid-column:1/-1">Mocowanie<select id="witMont"></select></label>
@@ -752,8 +752,8 @@ label{font-weight:600}
    <div id="witTerm"></div>
    <div class="row" style="margin-top:10px"><button class="b" id="witZamow" type="button">✉ Zamów / zapytaj</button><button class="b2" id="witKopiuj" type="button">📋 Kopiuj wycenę</button></div>
    <p class="note owner-only" id="witWl" style="margin:8px 0 0"></p>
-   <p class="note krotko">ℹ️ Podgląd to wizualizacja – gotowy witraż może się różnić. Kolory szkiełek dobieramy z przezroczystych filamentów, więc odcień może się nieco różnić od ekranu.</p>
-   <details class="wiecej"><summary>Co dostajesz i szczegóły</summary><div class="zestaw"><b>Witraż drukowany w jednym kawałku</b> (większe – z kilku części łączonych po liniach ołowiu): szkiełka z przezroczystego PETG o grubości 1,6 mm, ołów i rama 3,2 mm, gładki przód. Do okna – z zawieszką albo przyssawkami. <b>Wersja podświetlana</b> to obudowa jak kaseton z dyfuzorem i oświetleniem LED 12 V z opisanym przewodem, bez zasilacza 230 V, z instrukcją PDF dla elektryka. Własny wzór lub logo przygotowujemy z Twojego pliku – przed drukiem dostajesz projekt do akceptacji.</div><p class="note wizInfo">ℹ️ Podgląd to komputerowa wizualizacja, a nie zdjęcie gotowego produktu. Gotowy produkt może się różnić kolorem, przejrzystością i proporcjami.</p></details>
+   <p class="note krotko">ℹ️ Podgląd to wizualizacja – gotowy witraż może się różnić. Całość to wydruk 3D z filamentu – bez szkła i metalu. Kolorowe pola drukujemy z przezroczystych filamentów, więc odcień może się nieco różnić od ekranu.</p>
+   <details class="wiecej"><summary>Co dostajesz i szczegóły</summary><div class="zestaw"><b>Witraż drukowany w jednym kawałku</b> (większe – z kilku części łączonych po liniach konturów). Całość to wydruk 3D z tworzywa – bez szkła, ołowiu i metalu: kolorowe pola z przezroczystego PETG o grubości 1,6 mm, kontury i rama z kryjącego filamentu 3,2 mm, gładki przód. Do okna – z zawieszką albo przyssawkami. <b>Wersja podświetlana</b> to obudowa jak kaseton z dyfuzorem i oświetleniem LED 12 V z opisanym przewodem, bez zasilacza 230 V, z instrukcją PDF dla elektryka. Własny wzór lub logo przygotowujemy z Twojego pliku – przed drukiem dostajesz projekt do akceptacji.</div><p class="note wizInfo">ℹ️ Podgląd to komputerowa wizualizacja, a nie zdjęcie gotowego produktu. Gotowy produkt może się różnić kolorem, przejrzystością i proporcjami.</p></details>
   </div>
  <div class="card" id="lampy">
   <div class="ph">🛋️ Lampy i abażury 3D <span class="tag">na zamówienie</span></div>
@@ -2646,7 +2646,7 @@ async function zmienSloty(lista){ const wyb=await zapytajDopasowanie(lista,true)
 $("#cfsIp").onchange=e=>{ const v=e.target.value.trim(); if(!v||/^\d{1,3}(\.\d{1,3}){3}$/.test(v)){ S.settings.drukarkaIP=v; persist("settings"); if(v) prnSync(false); } else toast("Wpisz adres w postaci 192.168.1.50"); };
 
 /* ================= AUTOMATYCZNA AKTUALIZACJA APLIKACJI ================= */
-const APP_WERSJA=2026112152; const APP_WYDANIE="1.3.6";   // numer wydania dla ludzi (1.0 = pierwsza oficjalna); APP_WERSJA służy do aktualizacji
+const APP_WERSJA=2026112153; const APP_WYDANIE="1.3.7";   // numer wydania dla ludzi (1.0 = pierwsza oficjalna); APP_WERSJA służy do aktualizacji
 const NAT_WEB=!!(window.Android && typeof Android.saveWebApp==="function");
 const PULPIT=!ARTEFAKT && location.protocol==="file:";
 function idb(){ return new Promise((ok,no)=>{ try{ const r=indexedDB.open("drukuj3d",1); r.onupgradeneeded=()=>r.result.createObjectStore("kv"); r.onsuccess=()=>ok(r.result); r.onerror=()=>no(r.error); }catch(e){ no(e); } }); }
@@ -15351,15 +15351,15 @@ try{ ofInit(); }catch(e){ console.error("oferta",e); }
 const WIT={
  wer:[["panel","Witraż do okna – panel z zawieszką (bez prądu)"],["led","Witraż podświetlany LED – na ścianę (jak kaseton)"]],
  ks:[["rect","Prostokąt",1],["okr","Okrąg (rozeta)",1.1],["luk","Łuk – okno z półkolem u góry",1.1]],
- wz:[["geo","Romby – klasyczne okno",1],["kafle","Prostokąty – nowoczesny",1],["roz","Rozeta – jak w kościele",1.15],["moz","Mozaika – nieregularne szkiełka",1.1],["wach","Art déco – wachlarz",1.1],["plik","Twój wzór lub logo z pliku",1.25]],
- ge:[["duze","Duże szkiełka (ok. 9 cm)",90,0.95],["srednie","Średnie (ok. 6 cm)",60,1],["drobne","Drobne (ok. 4 cm)",40,1.15]],
+ wz:[["geo","Romby – klasyczne okno",1],["kafle","Prostokąty – nowoczesny",1],["roz","Rozeta – jak w kościele",1.15],["moz","Mozaika – nieregularne pola",1.1],["wach","Art déco – wachlarz",1.1],["plik","Twój wzór lub logo z pliku",1.25]],
+ ge:[["duze","Duże pola (ok. 9 cm)",90,0.95],["srednie","Średnie (ok. 6 cm)",60,1],["drobne","Drobne (ok. 4 cm)",40,1.15]],
  pal:[["klas","Klasyczna – rubin, kobalt, bursztyn",[["#c8102e","rubinowy"],["#1f4fa8","kobaltowy"],["#f2a900","bursztynowy"]]],
   ["morze","Morska – turkus, błękit, szmaragd",[["#00a6a6","turkusowy"],["#4aa3df","błękitny"],["#1e8c5a","szmaragdowy"]]],
   ["zach","Zachód słońca – czerwień, pomarańcz, złoto",[["#d7263d","czerwony"],["#f46036","pomarańczowy"],["#f6c90e","złoty"]]],
   ["las","Leśna – zieleń, oliwka, miód",[["#2e7d32","zielony"],["#8a9a2b","oliwkowy"],["#d9a441","miodowy"]]],
   ["mono","Elegancka – bezbarwne i mleczne",[["#dfeef4","bezbarwny"],["#ffffff","mleczny"]]],
   ["wl","Własne kolory – wybierz 3",null]],
- ol:[["czarny","Czarny – jak ołów","#17191d",0],["grafit","Grafitowy","#4a4f58",0],["zloty","Złoty","#c9a23a",0.1],["srebrny","Srebrny","#c4c9d1",0.1]],
+ ol:[["czarny","Czarny – klasyczny","#17191d",0],["grafit","Grafitowy","#4a4f58",0],["zloty","Złoty (filament silk)","#c9a23a",0.1],["srebrny","Srebrny (filament silk)","#c4c9d1",0.1]],
  mont:{panel:[["zaw","Zawieszka – 2 uszka u góry i żyłka (do okna)",0],["przys","Przyssawki do szyby – 2 szt.",9],["stoj","Drukowany stojak – na parapet lub półkę",29]],
   led:[["sciana","Na ścianę – uchwyty i szablon wiercenia (montujesz sam)",0],["lina","Do podwieszenia – linki i uchwyty",29]]},
  sw:[0,1,2,8],   // kolory światła z LED.sw: ciepły, neutralny, zimny biały, RGB
@@ -15425,7 +15425,7 @@ function witPlikUstaw(f){ const inf=$id("witPlikInfo"); WIT_PLIK=null; WIT_IMG=n
   r.onload=()=>{ const url=String(r.result); if(!/^image\//.test(f.type||"")&&!/\.svg$/i.test(f.name)){ if(inf) inf.innerHTML=`✅ <b>${esc(f.name)}</b> – plik dołączymy do zamówienia, wzór ułożymy ręcznie i pokażemy do akceptacji.`; witRender(); return; }
     const im=new Image(); im.onload=()=>{ const k=Math.min(1,160/Math.max(im.width||160,im.height||160)), w=Math.max(8,Math.round((im.width||160)*k)), h=Math.max(8,Math.round((im.height||160)*k)), cv=document.createElement("canvas"); cv.width=w; cv.height=h;
       const x=cv.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h); WIT_IMG={w,h,d:x.getImageData(0,0,w,h).data};
-      if(inf) inf.innerHTML=`✅ <b>${esc(f.name)}</b> – szkiełka dobrały kolory z Twojego pliku (podgląd). Plik wyślemy razem z zamówieniem.`; witRender(); };
+      if(inf) inf.innerHTML=`✅ <b>${esc(f.name)}</b> – kolorowe pola dobrały barwy z Twojego pliku (podgląd). Plik wyślemy razem z zamówieniem.`; witRender(); };
     im.onerror=()=>{ if(inf) inf.innerHTML=`✅ <b>${esc(f.name)}</b> – plik dołączymy do zamówienia.`; witRender(); }; im.src=url; };
   r.readAsDataURL(f); }
 /* ---- wybór i cena ---- */
@@ -15477,24 +15477,24 @@ function witRender(){ if(!$id("witraz")) return; const L=witLicz(), {s,d,razem,j
   pok("witLH",s.ks[0]!=="okr"); pok("witLPlik",s.wz[0]==="plik"); pok("witLWl",s.pal[0]==="wl"); pok("witLSw",s.led); pok("witLZas",s.led);
   $id("witLW").firstChild.textContent=s.ks[0]==="okr"?"Średnica (cm, 15–120)":"Szerokość (cm, 15–120)";
   const wym=s.ks[0]==="okr"?`Ø ${s.W} cm`:`${s.W} × ${s.H} cm`;
-  $id("witCena").innerHTML=`<span class="note">Cena końcowa</span><b>${zl(razem)}</b><span class="note">${wym} · ${d.g.kom.length} szkiełek w ${s.kol.length} ${czSl(s.kol.length,"kolorze","kolorach","kolorach")}${s.il>1?` · ${s.il} szt. × ${zl(jeden)}`:""}${razem===mn&&jeden*s.il<mn?` · minimalne zamówienie ${zl(mn)}`:""} · ${s.led?"zestaw do montażu, bez zasilacza 230 V":"gotowy do powieszenia"}</span>`;
-  $id("witCz").innerHTML="🧩 "+(d.cz===1?"Mieści się w jednym wydruku – bez łączeń.":`Wymiar jest większy niż stół drukarki (25 cm), więc witraż drukujemy z <b>${d.cz} ${czSl(d.cz,"części","części","części")}</b>${s.il>1?` (razem ${d.cz*s.il})`:""}. Łączenia prowadzimy po liniach ołowiu, więc prawie ich nie widać.`);
+  $id("witCena").innerHTML=`<span class="note">Cena końcowa</span><b>${zl(razem)}</b><span class="note">${wym} · ${d.g.kom.length} ${czSl(d.g.kom.length,"pole","pola","pól")} w ${s.kol.length} ${czSl(s.kol.length,"kolorze","kolorach","kolorach")}${s.il>1?` · ${s.il} szt. × ${zl(jeden)}`:""}${razem===mn&&jeden*s.il<mn?` · minimalne zamówienie ${zl(mn)}`:""} · ${s.led?"zestaw do montażu, bez zasilacza 230 V":"gotowy do powieszenia"}</span>`;
+  $id("witCz").innerHTML="🧩 "+(d.cz===1?"Mieści się w jednym wydruku – bez łączeń.":`Wymiar jest większy niż stół drukarki (25 cm), więc witraż drukujemy z <b>${d.cz} ${czSl(d.cz,"części","części","części")}</b>${s.il>1?` (razem ${d.cz*s.il})`:""}. Łączenia prowadzimy po liniach konturów, więc prawie ich nie widać.`);
   const otw=$id("witRoz").querySelector("details")&&$id("witRoz").querySelector("details").open, poz=witPoz(L);
   $id("witRoz").innerHTML=`<details class="wiecej rozb"${otw?" open":""}><summary>Za co płacisz – każda pozycja osobno</summary><table>${poz.map(([t,v])=>v==null?`<tr class="bez"><td>${esc(t)}</td><td class="n">–</td></tr>`:`<tr><td>${esc(t)}</td><td class="n">${typeof v==="number"?zl(v):v}</td></tr>`).join("")}${s.il>1?`<tr><td>Razem za 1 szt. × ${s.il}</td><td class="n">${zl(Math.round(jeden*s.il*100)/100)}</td></tr>`:""}${razem>jeden*s.il+0.004?`<tr><td>Dopłata do minimalnego zamówienia</td><td class="n">${zl(Math.round((razem-jeden*s.il)*100)/100)}</td></tr>`:""}<tr class="suma"><td>CENA KOŃCOWA</td><td class="n">${zl(razem)}</td></tr></table>${s.led?`<p class="note" style="margin:6px 0 0">Zasilacza 230 V → 12 V nie ma w zestawie – dokupujesz go osobno (opis w instrukcji). Montaż i podłączenie robisz sam lub z elektrykiem.</p>`:""}</details>`;
   $id("witTerm").innerHTML=terminHtml(witTerm(s),s.led?"zestaw do samodzielnego montażu":"od akceptacji projektu i wpłaty");
   const o=$id("witWl"); if(o){ if(typeof STRONA!=="undefined"&&STRONA){ o.innerHTML=""; } else try{ o.innerHTML=witWlasciciel(L); }catch(e){ o.innerHTML=""; } } }
-function witPoz(L){ const {s,wit,ob,led}=L, p=[[`Witraż – rama, ołów i ${L.d.g.kom.length} szkiełek (${s.kol.map(k=>k[1]).join(", ")})`,wit]];
+function witPoz(L){ const {s,wit,ob,led}=L, p=[[`Witraż (wydruk 3D z filamentu) – rama, kontury i ${L.d.g.kom.length} ${czSl(L.d.g.kom.length,"kolorowe pole","kolorowe pola","kolorowych pól")} (${s.kol.map(k=>k[1]).join(", ")})`,wit]];
   if(s.led) p.push(["Obudowa podświetlana z dyfuzorem",ob],[`Oświetlenie LED 12 V (${s.sw[1].toLowerCase()}), połączenia, test`,led]);
   p.push([s.m[1],s.m[2]?s.m[2]:"w cenie"]); if(s.led) p.push([s.z[1],s.z[2]?s.z[2]:"w cenie"],["Instrukcja PDF dla elektryka","w cenie"],["Zasilacz 230 V → 12 V – nie ma w zestawie",null]); return p; }
 function witWlasciciel(L){ const {s,d,razem}=L, st=witStan(), gk=d.gSzkla/s.kol.length+d.zm*WIT.zmianaG/(s.kol.length+1);
   const dob=s.kol.map(([h,nz])=>{ const q=witHex(h); let b=null,bd=1e9; st.forEach(f=>{ const w=witHex(f.kolor), dd=Math.hypot(w[0]-q[0],w[1]-q[1],w[2]-q[2]); if(dd<bd){ bd=dd; b=f; } });
     return b&&bd<90&&(typeof zostaloG!=="function"||zostaloG(b)>=gk)?`${esc(nz)} → <b>${esc(b.nazwa)}</b> (na stanie${typeof zostaloG==="function"?` ${Math.round(zostaloG(b))} g`:""})`:`${esc(nz)} → <b>do dokupienia</b>: przezroczysty PETG ${esc(nz)} (ok. ${Math.round(gk)} g)${b?`, najbliższy na stanie: ${esc(b.nazwa)}`:""}`; });
   const ds=typeof calDruk==="function"?calDruk(d.h,d.gr):0, sl=s.kol.length+1;
-  return `Tylko Ty: druk szacunkowo <b>${Math.round(d.gr)} g</b> (szkło ${Math.round(d.gSzkla)} g, ołów i rama ${Math.round(d.gOlow)} g, płukanie ok. ${Math.round(d.zm*WIT.zmianaG)} g), <b>${typeof calHm==="function"?calHm(d.h):d.h.toFixed(1)+" h"}</b>, ${d.cz} ${czSl(d.cz,"płyta","płyty","płyt")}, ${d.zm} zmian filamentu. Sloty CFS: ${sl} (ołów + ${s.kol.length} szkła)${sl>WIT.sloty?" ⚠ więcej niż 4 – potrzebny drugi CFS":""}. Sam druk (jak w oknie Wycena) ok. ${zl(ds)}.${ds>=razem?" ⚠ Według szacunku sam druk kosztuje tyle co cena dla klienta – sprawdź w slicerze.":""}<br>Filamenty (najpierw na stanie): ${dob.join(" · ")}.${s.led?" Dyfuzor: PETG mleczny/naturalny 0,8 mm (osobna płyta).":""}`; }
+  return `Tylko Ty: druk szacunkowo <b>${Math.round(d.gr)} g</b> (pola ${Math.round(d.gSzkla)} g, kontury i rama ${Math.round(d.gOlow)} g, płukanie ok. ${Math.round(d.zm*WIT.zmianaG)} g), <b>${typeof calHm==="function"?calHm(d.h):d.h.toFixed(1)+" h"}</b>, ${d.cz} ${czSl(d.cz,"płyta","płyty","płyt")}, ${d.zm} zmian filamentu. Sloty CFS: ${sl} (kontury + ${s.kol.length} ${czSl(s.kol.length,"kolor","kolory","kolorów")} pól)${sl>WIT.sloty?" ⚠ więcej niż 4 – potrzebny drugi CFS":""}. Sam druk (jak w oknie Wycena) ok. ${zl(ds)}.${ds>=razem?" ⚠ Według szacunku sam druk kosztuje tyle co cena dla klienta – sprawdź w slicerze.":""}<br>Filamenty (najpierw na stanie): ${dob.join(" · ")}.${s.led?" Dyfuzor: PETG mleczny/naturalny 0,8 mm (osobna płyta).":""}`; }
 function witTekst(){ const L=witLicz(), {s,d,razem,jeden}=L; return [`Witraż 3D – DRUKUJ 3D`,`Rodzaj: ${s.wer[1]}`,`Kształt: ${s.ks[1]}, ${s.ks[0]==="okr"?"Ø "+s.W:s.W+" × "+s.H} cm`,`Wzór: ${s.wz[1]}${s.wz[0]==="plik"?` – plik: ${WIT_PLIK?WIT_PLIK.name+" (wysłany z projektem – dołącz go też do tego e-maila)":"dołączę do e-maila"}`:""} · ${s.ge[1]} · układ nr ${WIT_SEED}`,
-  `Kolory szkła: ${s.kol.map(k=>k[1]+" "+k[0]).join(", ")}`,`Ołów i rama: ${s.ol[1]}`,s.led?`Kolor światła: ${s.sw[1]} · ${s.z[1]}`:"",`Mocowanie: ${s.m[1]}`,`Podział: ${d.cz===1?"jeden wydruk":d.cz+" części, łączenia po liniach ołowiu"}`,
+  `Kolory pól (przezroczysty filament): ${s.kol.map(k=>k[1]+" "+k[0]).join(", ")}`,`Kontury i rama (filament): ${s.ol[1]}`,s.led?`Kolor światła: ${s.sw[1]} · ${s.z[1]}`:"",`Mocowanie: ${s.m[1]}`,`Podział: ${d.cz===1?"jeden wydruk":d.cz+" części, łączenia po liniach konturów"}`,
   `Za co płacisz:`,...witPoz(L).map(([t,v])=>`  • ${t}: ${v==null?"–":typeof v==="number"?zl(v):v}`),`Ilość: ${s.il}`,razem>jeden*s.il+0.004?`Dopłata do minimalnego zamówienia: ${zl(Math.round((razem-jeden*s.il)*100)/100)}`:"",`CENA KOŃCOWA: ${zl(razem)}`,
-  `Termin realizacji: ${terminStr(witTerm(s))} od akceptacji projektu i wpłaty (orientacyjnie, wiąże po potwierdzeniu)`,`Kolory szkiełek dobieramy z przezroczystych filamentów – odcień może się nieco różnić od podglądu.`].filter(Boolean).join("\n"); }
+  `Termin realizacji: ${terminStr(witTerm(s))} od akceptacji projektu i wpłaty (orientacyjnie, wiąże po potwierdzeniu)`,`Całość to wydruk 3D z filamentu (bez szkła i metalu). Kolorowe pola drukujemy z przezroczystego filamentu – odcień może się nieco różnić od podglądu.`].filter(Boolean).join("\n"); }
 /* projekt dla Bryłki – format BRYLKA-WITRAZ (mm, widok od przodu, oś Y w dół) */
 function projektWitraz(){ try{ const L=witLicz(), {s,d}=L, g=d.g, r=v=>Math.round(v*10)/10, P=p=>p.map(([a,b])=>[r(a),r(b)]); witKoloruj(g,s);
   return {kind:"witraz",oprawa:s.led?"led":"panel",ksztalt:s.ks[0],W:r(g.W),H:r(g.H),wzor:s.wz[0],szkielko_mm:s.ge[2],uklad:WIT_SEED,
