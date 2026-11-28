@@ -1,5 +1,5 @@
 {
- "aktualizacja": "2026-11-28T10:28:15.471Z",
+ "aktualizacja": "2026-11-28T10:30:54.642Z",
  "filamenty": [
   {
    "id": "mw3bjo8wjq0re",
@@ -187,6 +187,13 @@
    "id": "mx09oii6ymv1k",
    "nazwa": "Petg White Mat",
    "typ": "PETG",
+   "kolor": "#ffffff",
+   "wyk": "mat"
+  },
+  {
+   "id": "mx09rxbkjwlse",
+   "nazwa": "Petg Black Matte",
+   "typ": "PLA",
    "kolor": "#ffffff",
    "wyk": "mat"
   }
